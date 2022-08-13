@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "dispositivos-moviles-n4-equipo9",
+    "slug": "dispositivos-moviles-n4-equipo9",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
