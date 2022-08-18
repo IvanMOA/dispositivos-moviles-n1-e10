@@ -13,6 +13,7 @@ import {
   Pressable,
   Stack,
   Text,
+  useToast,
   WarningOutlineIcon,
 } from "native-base";
 import { auth } from "../../firebase";
@@ -59,6 +60,8 @@ const customErrorMap = (issue, ctx) => {
 
 z.setErrorMap(customErrorMap);
 export default function Register() {
+  const toast = useToast();
+  const [registering, setRegistering] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -76,6 +79,7 @@ export default function Register() {
           name: z.string().min(6).max(100),
           email: z.string().min(6).email(),
           password: z.string().min(6).max(100),
+          confirmationPassword: z.string(),
         })
         .refine((data) => data.password === data.confirmationPassword, {
           path: ["confirmationPassword"],
@@ -83,7 +87,11 @@ export default function Register() {
       const validationResult = registerSchema.safeParse(form);
       if (!validationResult.success) {
         setValidationErrorBag(formErrors(validationResult));
+        setRegistering(false);
+        return;
       }
+      setValidationErrorBag({});
+      setRegistering(true);
       const { user } = await createUserWithEmailAndPassword(
         auth,
         form.email,
@@ -91,9 +99,20 @@ export default function Register() {
       );
       await updateProfile(user, { displayName: form.name });
       await sendEmailVerification(user);
+      toast.show({
+        description: "Cuenta registrada",
+      });
+      setForm({});
     } catch (e) {
+      if (e.code === "auth/email-already-in-use") {
+        setValidationErrorBag({
+          email: ["Correo en uso"],
+        });
+      }
       console.log(e);
     }
+    console.log("Hola mundo");
+    setRegistering(false);
   }
   const onChange = {
     name: (newValue) =>
@@ -192,7 +211,12 @@ export default function Register() {
               errorBag={validationErrorBag}
             />
           </FormControl>
-          <Button onPress={register} style={{ width: "100%", marginTop: 10 }}>
+          <Button
+            isLoading={registering}
+            isLoadingText="Registrando"
+            onPress={register}
+            style={{ width: "100%", marginTop: 10 }}
+          >
             Registrarse
           </Button>
         </Stack>
