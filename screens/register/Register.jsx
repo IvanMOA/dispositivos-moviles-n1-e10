@@ -50,6 +50,7 @@ export default function Register() {
   });
   const [validationErrorBag, setValidationErrorBag] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
   const [showConfirmationPassword, setShowConfirmationPassword] =
     useState(false);
   const { t, lang } = useI18n();
@@ -58,6 +59,13 @@ export default function Register() {
       const validationResult = registerSchema.safeParse(form);
       if (!validationResult.success) {
         setValidationErrorBag(formErrors(validationResult));
+      }
+    }
+    if (error !== null) {
+      if (error.code === "auth/email-already-in-use") {
+        return setValidationErrorBag({
+          email: [t("email_already_in_use")],
+        });
       }
     }
   }, [lang]);
@@ -85,8 +93,9 @@ export default function Register() {
         description: t("registered_account"),
       });
       setForm({});
+      setError(null);
     } catch (e) {
-      console.log(e);
+      setError(e);
       if (e.code === "auth/email-already-in-use") {
         return setValidationErrorBag({
           email: [t("email_already_in_use")],
@@ -225,10 +234,6 @@ export default function Register() {
                   <Select key={role} label={t(role)} value={role} />
                 ))}
               </Select>
-              <FormErrorMessage
-                name="confirmationPassword"
-                errorBag={validationErrorBag}
-              />
             </FormControl>
 
             <Button
@@ -241,7 +246,6 @@ export default function Register() {
             </Button>
           </Stack>
         </FormControl>
-
         <Link to="/login">
           <Text>{t("already_have_an_account")}</Text>
         </Link>

@@ -37,12 +37,23 @@ export default function Login() {
     confirmationPassword: "",
   });
   const [validationErrorBag, setValidationErrorBag] = useState({});
+  const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     if (Object.keys(validationErrorBag).length > 0) {
       const validationResult = loginSchema.safeParse(form);
       if (!validationResult.success) {
         setValidationErrorBag(formErrors(validationResult));
+      }
+    }
+    if (error !== null) {
+      if (
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        return setValidationErrorBag({
+          email: [t("invalid_credentials")],
+        });
       }
     }
   }, [lang]);
@@ -61,15 +72,10 @@ export default function Login() {
         form.email,
         form.password
       );
-
       setForm({});
+      setError(null);
     } catch (e) {
-      console.log(e);
-      if (e.code === "auth/email-already-in-use") {
-        return setValidationErrorBag({
-          email: [t("email_already_in_use")],
-        });
-      }
+      setError(e);
       if (
         e.code === "auth/wrong-password" ||
         e.code === "auth/user-not-found"
