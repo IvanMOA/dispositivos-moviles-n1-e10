@@ -2,7 +2,7 @@ import { useI18n } from "./I18nProvider";
 import { HamburgerIcon, Menu, Pressable, Text } from "native-base";
 import React from "react";
 
-export function LangSelector() {
+export function LangSelector({ style }) {
   const { changeLanguage, lang } = useI18n();
   const langs = {
     es: "🇲🇽",
@@ -10,6 +10,7 @@ export function LangSelector() {
   };
   return (
     <Menu
+      style={style}
       shadow={2}
       trigger={(triggerProps) => {
         return (

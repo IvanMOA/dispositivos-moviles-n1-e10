@@ -23,6 +23,7 @@ export const en = {
   seller: "Seller",
   buyer: "Buyer",
   role: "Role",
+  home: "Home",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {

@@ -1,44 +1,95 @@
 import React from "react";
 import Register from "./screens/register/Register";
 import Login from "./screens/login/Login";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Text } from "native-base";
 import { AuthProvider } from "./components/AuthProvider";
-import { I18nProvider } from "./components/I18nProvider";
+import { I18nProvider, useI18n } from "./components/I18nProvider";
 import Home from "./screens/home/Home";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Loading } from "./screens/loading/Loading";
-
-const Stack = createNativeStackNavigator();
+import { View, StyleSheet } from "react-native";
+import { LangSelector } from "./components/LangSelector";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+} from "@react-navigation/drawer";
+import "react-native-gesture-handler";
+import MenuButtonItem from "./components/MenuButtonItem";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
+const Drawer = createDrawerNavigator();
 export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
         <I18nProvider>
           <AuthProvider>
-            <Stack.Navigator>
-              <Stack.Screen
+            <Drawer.Navigator
+              drawerContent={(props) => <MenuItems {...props} />}
+            >
+              <Drawer.Screen
                 name="Loading"
                 component={Loading}
                 options={{
                   headerShown: false,
                 }}
               />
-              <Stack.Screen
+              <Drawer.Screen
                 name="Login"
                 component={Login}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen
+              <Drawer.Screen
                 name="Register"
                 component={Register}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="Home" component={Home} />
-            </Stack.Navigator>
+              <Drawer.Screen
+                name="Home"
+                component={Home}
+                options={{
+                  headerTitle: (props) => (
+                    <View
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <LangSelector style={{ marginLeft: 100 }} />
+                    </View>
+                  ),
+                }}
+              />
+            </Drawer.Navigator>
           </AuthProvider>
         </I18nProvider>
       </NavigationContainer>
     </NativeBaseProvider>
   );
 }
+function MenuItems({ navigation }) {
+  const { t } = useI18n();
+  async function logout() {
+    await signOut(auth);
+  }
+  return (
+    <DrawerContentScrollView style={styles.container}>
+      <Text style={styles.title}>Menu</Text>
+      <MenuButtonItem
+        text={t("home")}
+        onPress={() => navigation.navigate("Home")}
+      />
+      <MenuButtonItem text={t("sign_out")} onPress={logout} />
+    </DrawerContentScrollView>
+  );
+}
+const styles = StyleSheet.create({
+  title: {
+    marginBottom: 20,
+  },
+  container: {
+    padding: 15,
+  },
+});

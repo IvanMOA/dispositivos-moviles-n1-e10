@@ -25,7 +25,7 @@ export function I18nProvider({ children }) {
     z.setErrorMap(zodErrorMaps[lang]);
   }
   function t(key) {
-    if (!langs[i18nStoreState.lang]) return "";
+    if (!langs[i18nStoreState.lang]) return key;
     return langs[i18nStoreState.lang][key];
   }
   return (
