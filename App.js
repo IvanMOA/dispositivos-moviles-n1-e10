@@ -1,79 +1,14 @@
 import React from "react";
 import Register from "./screens/register/Register";
 import Login from "./screens/login/Login";
-import {
-  Box,
-  HamburgerIcon,
-  HStack,
-  Menu,
-  NativeBaseProvider,
-  Pressable,
-  Stack,
-  Text,
-} from "native-base";
+import { NativeBaseProvider } from "native-base";
 import { NativeRouter, Route, Switch } from "react-router-native";
-import { View } from "react-native";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { OnlyPublicRoute } from "./components/OnlyPublicRoute";
-import { AuthProvider, useAuthStore } from "./components/AuthProvider";
-import { signOut } from "firebase/auth";
-import { auth } from "./firebase";
-import { I18nProvider, useI18n } from "./components/I18nProvider";
-import { LangSelector } from "./components/LangSelector";
-import { userUserStore } from "./stores/UserStore";
-function Home() {
-  const { user } = useAuthStore();
-  const userStore = userUserStore();
-  const { t } = useI18n();
-  async function logout() {
-    await signOut(auth);
-  }
-  return (
-    <View>
-      <Stack space={4}>
-        <HStack
-          justifyContent="space-between"
-          alignContent="center"
-          px={5}
-          py={5}
-        >
-          <Text></Text>
-          <HStack
-            justifyContent="space-between"
-            alignContent="center"
-            alignItems="center"
-          >
-            <LangSelector />
-            <Box style={{ paddingRight: 20 }}></Box>
-            <Menu
-              shadow={2}
-              trigger={(triggerProps) => {
-                return (
-                  <Pressable
-                    accessibilityLabel="More options menu"
-                    {...triggerProps}
-                  >
-                    <HamburgerIcon />
-                  </Pressable>
-                );
-              }}
-            >
-              <Menu.Item onPress={logout}>{t("sign_out")}</Menu.Item>
-            </Menu>
-          </HStack>
-        </HStack>
-        <Stack px={5}>
-          <Text>
-            {t("welcome")} {userStore.user.name}
-          </Text>
-          <Text>
-            {t("role")}: {t(userStore.user.role)}
-          </Text>
-        </Stack>
-      </Stack>
-    </View>
-  );
-}
+import { AuthProvider } from "./components/AuthProvider";
+import { I18nProvider } from "./components/I18nProvider";
+import Home from "./screens/home/Home";
+
 export default function App() {
   return (
     <NativeBaseProvider>
