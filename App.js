@@ -20,8 +20,10 @@ import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { I18nProvider, useI18n } from "./components/I18nProvider";
 import { LangSelector } from "./components/LangSelector";
+import { userUserStore } from "./stores/UserStore";
 function Home() {
   const { user } = useAuthStore();
+  const userStore = userUserStore();
   const { t } = useI18n();
   async function logout() {
     await signOut(auth);
@@ -62,10 +64,10 @@ function Home() {
         </HStack>
         <Stack px={5}>
           <Text>
-            {t("welcome")} {user.displayName}
+            {t("welcome")} {userStore.user.name}
           </Text>
           <Text>
-            {t("role")}: {t(user.photoURL.split("//")[1])}
+            {t("role")}: {t(userStore.user.role)}
           </Text>
         </Stack>
       </Stack>
