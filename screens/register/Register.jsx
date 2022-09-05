@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
@@ -9,12 +9,12 @@ import {
   HStack,
   Icon,
   Input,
+  Link,
   Pressable,
   Select,
   Stack,
   useToast,
 } from "native-base";
-import { Link } from "react-router-native";
 import { auth, firestore } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
@@ -26,8 +26,8 @@ import FormErrorMessage from "../../components/FormErrorMessage";
 import { z } from "zod";
 import { useI18n } from "../../components/I18nProvider";
 import { LangSelector } from "../../components/LangSelector";
-import { useEffect } from "react";
-import { setDoc, doc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+
 const roles = ["seller", "buyer"];
 const registerSchema = z
   .object({
@@ -39,7 +39,7 @@ const registerSchema = z
   .refine((data) => data.password === data.confirmationPassword, {
     path: ["confirmationPassword"],
   });
-export default function Register() {
+export default function Register({ navigation }) {
   const toast = useToast();
   const [registering, setRegistering] = useState(false);
   const [form, setForm] = useState({
@@ -252,7 +252,7 @@ export default function Register() {
             </Button>
           </Stack>
         </FormControl>
-        <Link to="/login">
+        <Link onPress={() => navigation.navigate("Login")} to="/login">
           <Text>{t("already_have_an_account")}</Text>
         </Link>
       </Box>

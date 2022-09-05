@@ -4,16 +4,14 @@ import {
   Box,
   Button,
   FormControl,
-  HamburgerIcon,
   HStack,
   Icon,
   Input,
-  Menu,
+  Link,
   Pressable,
   Stack,
   useToast,
 } from "native-base";
-import { Link } from "react-router-native";
 import { Text } from "react-native";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -22,11 +20,12 @@ import FormErrorMessage from "../../components/FormErrorMessage";
 import { z } from "zod";
 import { useI18n } from "../../components/I18nProvider";
 import { LangSelector } from "../../components/LangSelector";
+
 const loginSchema = z.object({
   email: z.string().min(6).email(),
   password: z.string().min(6).max(100),
 });
-export default function Login() {
+export default function Login({ navigation }) {
   const toast = useToast();
   const { t, lang } = useI18n();
   const [registering, setLoggingIn] = useState(false);
@@ -163,7 +162,7 @@ export default function Login() {
             </Button>
           </Stack>
         </FormControl>
-        <Link to="/register">
+        <Link onPress={() => navigation.navigate("Register")} to="/register">
           <Text>{t("create_new_account")}</Text>
         </Link>
       </Box>

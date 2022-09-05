@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { useToast } from "native-base";
 import { useI18n } from "./I18nProvider";
 import { userUserStore } from "../stores/UserStore";
+import { useNavigation } from "@react-navigation/native";
 export const AuthContext = createContext({
   isAuthenticatingUser: true,
   user: null,
@@ -11,6 +12,7 @@ export const AuthContext = createContext({
 export function AuthProvider({ children }) {
   const toast = useToast();
   const { t } = useI18n();
+  const navigation = useNavigation();
   const userStore = userUserStore();
   const [authStoreState, setAuthStoreState] = useState({
     isAuthenticatingUser: true,
@@ -42,6 +44,7 @@ export function AuthProvider({ children }) {
           user,
           isAuthenticatingUser: false,
         });
+        navigation.navigate(user ? "Home" : "Login");
       }
     );
     return () => {
