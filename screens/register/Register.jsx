@@ -15,7 +15,7 @@ import {
   useToast,
 } from "native-base";
 import { Link } from "react-router-native";
-import { auth } from "../../firebase";
+import { auth, firestore } from "../../firebase";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -27,6 +27,7 @@ import { z } from "zod";
 import { useI18n } from "../../components/I18nProvider";
 import { LangSelector } from "../../components/LangSelector";
 import { useEffect } from "react";
+import { setDoc, doc } from "firebase/firestore";
 const roles = ["seller", "buyer"];
 const registerSchema = z
   .object({
@@ -84,9 +85,13 @@ export default function Register() {
         form.email,
         form.password
       );
+      await setDoc(doc(firestore, "users", user.uid), {
+        email: form.email,
+        name: form.name,
+        role: form.role,
+      });
       await updateProfile(user, {
         displayName: form.name,
-        photoURL: `https://${form.role}`,
       });
       await sendEmailVerification(user);
       toast.show({
@@ -95,6 +100,7 @@ export default function Register() {
       setForm({});
       setError(null);
     } catch (e) {
+      console.log(e);
       setError(e);
       if (e.code === "auth/email-already-in-use") {
         return setValidationErrorBag({

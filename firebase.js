@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { initializeFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBCHocGxH5boufaru4jHom0WOz7Lhg113U",
   authDomain: "dispositivos-moviles-63cd0.firebaseapp.com",
@@ -10,3 +11,6 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const firestore = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
