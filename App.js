@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Register from "./screens/register/Register";
 import Login from "./screens/login/Login";
-import { NativeBaseProvider, Text } from "native-base";
+import { Icon, NativeBaseProvider, Text } from "native-base";
 import { AuthProvider } from "./components/AuthProvider";
 import { I18nProvider, useI18n } from "./components/I18nProvider";
 import Home from "./screens/home/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { Loading } from "./screens/loading/Loading";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, Pressable } from "react-native";
 import { LangSelector } from "./components/LangSelector";
 import {
   createDrawerNavigator,
@@ -16,11 +16,34 @@ import {
 import "react-native-gesture-handler";
 import MenuButtonItem from "./components/MenuButtonItem";
 import { signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, firestore } from "./firebase";
 import ChatUserSelector from "./screens/chat-user-selector/ChatUserSelector";
 import ChatMessages from "./screens/chat-messages/ChatMessages";
+import { onSnapshot, collection } from "firebase/firestore";
+import { userUserStore } from "./stores/UserStore";
+import { useChatsStore } from "./stores/ChatsStore";
+import { FontAwesome } from "@expo/vector-icons";
 const Drawer = createDrawerNavigator();
 export default function App() {
+  const userStore = userUserStore();
+  const chatsStore = useChatsStore();
+  useEffect(() => {
+    if (userStore.user === null) return () => {};
+    const unsubscribe = onSnapshot(
+      collection(firestore, "chats"),
+      { includeMetadataChanges: true },
+      (querySnapshot) => {
+        const chats = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        chatsStore.addChats(chats);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [userStore.user]);
   return (
     <NativeBaseProvider>
       <NavigationContainer>
@@ -66,12 +89,20 @@ export default function App() {
                 options={({ navigation }) => ({
                   headerTitle: (props) => <HeaderTitle />,
                   headerLeft: () => (
-                    <Button
-                      title="asd"
+                    <Pressable
                       onPress={() => navigation.navigate("Chat")}
+                      style={{
+                        marginLeft: 20,
+                      }}
                     >
-                      Test
-                    </Button>
+                      <Icon as={FontAwesome} name="chevron-left" />
+                    </Pressable>
+                    // <Button
+                    //   title=""
+                    //   onPress={() => navigation.navigate("Chat")}
+                    // >
+                    //   Test
+                    // </Button>
                   ),
                 })}
               />
@@ -113,10 +144,7 @@ function MenuItems({ navigation }) {
         text={t("chat")}
         onPress={() => navigation.navigate("Chat")}
       />
-      <MenuButtonItem
-        text={"Chat messages TEMP"}
-        onPress={() => navigation.navigate("ChatMessages")}
-      />
+
       <MenuButtonItem text={t("sign_out")} onPress={logout} />
     </DrawerContentScrollView>
   );

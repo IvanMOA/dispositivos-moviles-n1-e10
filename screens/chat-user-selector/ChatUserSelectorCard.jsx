@@ -1,19 +1,43 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { userUserStore } from "../../stores/UserStore";
+import { Avatar } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { useChatsStore } from "../../stores/ChatsStore";
 
-export default function ChatUserSelectorCard() {
+export default function ChatUserSelectorCard({ chat }) {
+  const userStore = userUserStore();
+  const chatsStore = useChatsStore();
+  const navigation = useNavigation();
+  const wasChatCreatedByUser = chat.createdByUser.id === userStore.user.id;
+  function getInitials(name) {
+    console.log(name);
+    const names = name.split(" ");
+    return names[0]
+      .slice(0, 2)
+      .split("")
+      .map((l) => l.toUpperCase())
+      .join("");
+  }
+  const navigate = () => {
+    chatsStore.selectChatId(chat.id);
+    navigation.navigate("ChatMessages");
+  };
   return (
-    <View style={styles.card}>
-      <Image
-        source={{
-          uri: "https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/96b0f8c1fc7546deab323b0f6ba9f33a.jpg",
-        }}
-        style={styles.image}
-      />
+    <Pressable onPress={navigate} style={styles.card}>
+      <Avatar mr={3}>
+        {wasChatCreatedByUser
+          ? getInitials(chat.createdByUser.name)
+          : getInitials(chat.createdToUser.name)}
+      </Avatar>
       <View style={styles.textContainer}>
-        <Text style={styles.username}>Test</Text>
-        <Text style={styles.latestMessage}>Latest message from user</Text>
+        <Text style={styles.username}>
+          {wasChatCreatedByUser
+            ? chat.createdToUser.name
+            : chat.createdByUser.name}
+        </Text>
+        {/*<Text style={styles.latestMessage}>Latest message from user</Text>*/}
       </View>
-    </View>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({
@@ -25,6 +49,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 10,
+    marginVertical: 8,
     backgroundColor: "white",
     display: "flex",
     flexDirection: "row",

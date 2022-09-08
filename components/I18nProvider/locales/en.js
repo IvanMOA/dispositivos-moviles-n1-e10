@@ -25,6 +25,7 @@ export const en = {
   role: "Role",
   home: "Home",
   chat: "Chat",
+  write_your_message: "Write your message",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {
