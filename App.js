@@ -7,7 +7,7 @@ import { I18nProvider, useI18n } from "./components/I18nProvider";
 import Home from "./screens/home/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { Loading } from "./screens/loading/Loading";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import { LangSelector } from "./components/LangSelector";
 import {
   createDrawerNavigator,
@@ -17,6 +17,8 @@ import "react-native-gesture-handler";
 import MenuButtonItem from "./components/MenuButtonItem";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
+import ChatUserSelector from "./screens/chat-user-selector/ChatUserSelector";
+import ChatMessages from "./screens/chat-messages/ChatMessages";
 const Drawer = createDrawerNavigator();
 export default function App() {
   return (
@@ -48,19 +50,30 @@ export default function App() {
                 name="Home"
                 component={Home}
                 options={{
-                  headerTitle: (props) => (
-                    <View
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      <LangSelector style={{ marginLeft: 100 }} />
-                    </View>
-                  ),
+                  headerTitle: (props) => <HeaderTitle />,
                 }}
+              />
+              <Drawer.Screen
+                name="Chat"
+                component={ChatUserSelector}
+                options={{
+                  headerTitle: (props) => <HeaderTitle />,
+                }}
+              />
+              <Drawer.Screen
+                name="ChatMessages"
+                component={ChatMessages}
+                options={({ navigation }) => ({
+                  headerTitle: (props) => <HeaderTitle />,
+                  headerLeft: () => (
+                    <Button
+                      title="asd"
+                      onPress={() => navigation.navigate("Chat")}
+                    >
+                      Test
+                    </Button>
+                  ),
+                })}
               />
             </Drawer.Navigator>
           </AuthProvider>
@@ -69,6 +82,21 @@ export default function App() {
     </NativeBaseProvider>
   );
 }
+function HeaderTitle() {
+  return (
+    <View
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+      }}
+    >
+      <LangSelector style={{ marginLeft: 100 }} />
+    </View>
+  );
+}
+
 function MenuItems({ navigation }) {
   const { t } = useI18n();
   async function logout() {
@@ -80,6 +108,14 @@ function MenuItems({ navigation }) {
       <MenuButtonItem
         text={t("home")}
         onPress={() => navigation.navigate("Home")}
+      />
+      <MenuButtonItem
+        text={t("chat")}
+        onPress={() => navigation.navigate("Chat")}
+      />
+      <MenuButtonItem
+        text={"Chat messages TEMP"}
+        onPress={() => navigation.navigate("ChatMessages")}
       />
       <MenuButtonItem text={t("sign_out")} onPress={logout} />
     </DrawerContentScrollView>
