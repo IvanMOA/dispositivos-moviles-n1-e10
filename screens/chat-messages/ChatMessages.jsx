@@ -9,6 +9,7 @@ import {
   Icon,
   Input,
   Pressable,
+  Spinner,
   Text,
   useToast,
 } from "native-base";
@@ -57,7 +58,13 @@ export default function ChatMessages() {
   return (
     <View style={styles.container}>
       <View style={styles.messagesContainer}>
-        {messages &&
+        {isFetchingMessages ? (
+          <Spinner />
+        ) : fetchMessagesError ? (
+          <Text>{fetchMessagesError.message}</Text>
+        ) : messages.length === 0 ? (
+          <Text>{t("no_messages_found")}</Text>
+        ) : (
           messages.map((message) => {
             const wasChatCreatedByUser =
               message.fromUserId === userStore.user.id;
@@ -74,7 +81,8 @@ export default function ChatMessages() {
                 {message.message}
               </Text>
             );
-          })}
+          })
+        )}
       </View>
       <View style={styles.sendMessageContainer}>
         <Input

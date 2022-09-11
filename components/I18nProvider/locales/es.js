@@ -26,6 +26,7 @@ export const es = {
   home: "Inicio",
   chat: "Chat",
   write_your_message: "Escribe tu mensaje",
+  no_messages_found: "No se encontraron mensajes",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {
