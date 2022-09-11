@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useChatsStore } from "../../stores/ChatsStore";
 import { StyleSheet } from "react-native";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -14,13 +14,14 @@ import {
   useToast,
 } from "native-base";
 import FormErrorMessage from "../../components/FormErrorMessage";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { useI18n } from "../../components/I18nProvider";
 import { userUserStore } from "../../stores/UserStore";
 
 export default function ChatMessages() {
   const [message, setMessage] = useState();
+  const scrollView = useRef();
   const { t } = useI18n();
   const chatsStore = useChatsStore();
   const userStore = userUserStore();
@@ -47,6 +48,7 @@ export default function ChatMessages() {
         }
       );
       setMessage("");
+      scrollView.current.scrollToEnd({ animated: true });
     } catch (e) {
       console.log(e);
       toast.show({
@@ -55,9 +57,14 @@ export default function ChatMessages() {
     } finally {
     }
   }
+  useEffect(() => {
+    if (messages?.length > 0) {
+      scrollView.current.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
   return (
     <View style={styles.container}>
-      <View style={styles.messagesContainer}>
+      <ScrollView ref={scrollView} style={styles.messagesContainer}>
         {isFetchingMessages ? (
           <Spinner />
         ) : fetchMessagesError ? (
@@ -83,7 +90,7 @@ export default function ChatMessages() {
             );
           })
         )}
-      </View>
+      </ScrollView>
       <View style={styles.sendMessageContainer}>
         <Input
           defaultValue={message}
