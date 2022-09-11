@@ -1,4 +1,5 @@
 import { Image, Text, View, StyleSheet } from "react-native";
+import { Spinner } from "native-base";
 import ChatUserSelectorCard from "./ChatUserSelectorCard";
 import { userUserStore } from "../../stores/UserStore";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -20,13 +21,16 @@ export default function ChatUserSelector() {
     <View style={styles.container}>
       <Text style={styles.title}>Chat</Text>
       <View>
-        {!isFetchingChats &&
-          chats &&
+        {isFetchingChats ? (
+          <Spinner />
+        ) : fetchChatsError ? (
+          <Text>{fetchChatsError.message}</Text>
+        ) : chats.length === 0 ? (
+          <Text>No se encontraron chats</Text>
+        ) : (
           chats.map((chat) => (
             <ChatUserSelectorCard key={chat.id} chat={chat} />
-          ))}
-        {!isFetchingChats && chats.length === 0 && (
-          <Text>No se encontraron chats</Text>
+          ))
         )}
       </View>
     </View>
