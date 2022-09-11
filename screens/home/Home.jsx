@@ -21,12 +21,16 @@ import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { query, collection, setDoc, doc } from "firebase/firestore";
 import UserCard from "./UserCard";
+import { useNavigation } from "@react-navigation/native";
+import { useVideoCallStore } from "../../stores/VideoCallStore";
 
 export default function Home() {
   const { user } = useAuthStore();
   const userStore = userUserStore();
   const { t } = useI18n();
   const toast = useToast();
+  const videoCallStore = useVideoCallStore();
+  const navigation = useNavigation();
   const [usersSS, loadingUsers, fetchUsersError] = useCollection(
     query(collection(firestore, "users"))
   );

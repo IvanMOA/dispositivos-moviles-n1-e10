@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { initializeFirestore } from "firebase/firestore";
+import { collection, initializeFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBCHocGxH5boufaru4jHom0WOz7Lhg113U",
   authDomain: "dispositivos-moviles-63cd0.firebaseapp.com",
@@ -14,3 +14,7 @@ export const auth = getAuth(app);
 export const firestore = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+export const offerCandidatesCollection = (channelId) =>
+  collection(firestore, "channels", channelId, "offerCandidates");
+export const answerCandidatesCollection = (channelId) =>
+  collection(firestore, "channels", channelId, "answerCandidates");

@@ -7,7 +7,13 @@ import { I18nProvider, useI18n } from "./components/I18nProvider";
 import Home from "./screens/home/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { Loading } from "./screens/loading/Loading";
-import { View, StyleSheet, Button, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Pressable,
+  PermissionsAndroid,
+} from "react-native";
 import { LangSelector } from "./components/LangSelector";
 import {
   createDrawerNavigator,
@@ -19,11 +25,36 @@ import { signOut } from "firebase/auth";
 import { auth, firestore } from "./firebase";
 import ChatUserSelector from "./screens/chat-user-selector/ChatUserSelector";
 import ChatMessages from "./screens/chat-messages/ChatMessages";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, where, query } from "firebase/firestore";
 import { userUserStore } from "./stores/UserStore";
 import { useChatsStore } from "./stores/ChatsStore";
 import { FontAwesome } from "@expo/vector-icons";
+import VideoCall from "./screens/video-call/VideoCall";
+import VideoCallsObserver from "./components/VideoCallsObserver";
 const Drawer = createDrawerNavigator();
+const requestCameraPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: "Cool Photo App Camera Permission",
+        message:
+          "Cool Photo App needs access to your camera " +
+          "so you can take awesome pictures.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK",
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the camera");
+    } else {
+      console.log("Camera permission denied");
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
 export default function App() {
   const userStore = userUserStore();
   const chatsStore = useChatsStore();
@@ -40,6 +71,7 @@ export default function App() {
         chatsStore.addChats(chats);
       }
     );
+
     return () => {
       unsubscribe();
     };
@@ -49,6 +81,7 @@ export default function App() {
       <NavigationContainer>
         <I18nProvider>
           <AuthProvider>
+            <VideoCallsObserver />
             <Drawer.Navigator
               drawerContent={(props) => <MenuItems {...props} />}
             >
@@ -87,7 +120,18 @@ export default function App() {
                 name="ChatMessages"
                 component={ChatMessages}
                 options={({ navigation }) => ({
-                  headerTitle: (props) => <HeaderTitle />,
+                  headerTitle: (props) => (
+                    <HeaderTitle>
+                      <Pressable
+                        onPress={() => navigation.navigate("VideoCall")}
+                        style={{
+                          marginRight: 20,
+                        }}
+                      >
+                        <Icon as={FontAwesome} name="video-camera" />
+                      </Pressable>
+                    </HeaderTitle>
+                  ),
                   headerLeft: () => (
                     <Pressable
                       onPress={() => navigation.navigate("Chat")}
@@ -97,15 +141,10 @@ export default function App() {
                     >
                       <Icon as={FontAwesome} name="chevron-left" />
                     </Pressable>
-                    // <Button
-                    //   title=""
-                    //   onPress={() => navigation.navigate("Chat")}
-                    // >
-                    //   Test
-                    // </Button>
                   ),
                 })}
               />
+              <Drawer.Screen name="VideoCall" component={VideoCall} />
             </Drawer.Navigator>
           </AuthProvider>
         </I18nProvider>
@@ -113,16 +152,18 @@ export default function App() {
     </NativeBaseProvider>
   );
 }
-function HeaderTitle() {
+function HeaderTitle({ children }) {
   return (
     <View
       style={{
         width: "100%",
         display: "flex",
         flexDirection: "row",
+        alignItems: "center",
         justifyContent: "flex-end",
       }}
     >
+      {children}
       <LangSelector style={{ marginLeft: 100 }} />
     </View>
   );
