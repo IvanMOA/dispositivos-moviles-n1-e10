@@ -60,7 +60,7 @@ export default function UserCard({ user }) {
         isLoading={isCreatingChat}
         style={styles.userCardButton}
       >
-        Iniciar chat
+        + Chat
       </Button>
     </View>
   );
