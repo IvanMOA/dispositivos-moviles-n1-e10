@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import {
@@ -32,7 +33,8 @@ import { useVideoCallStore } from "../../stores/VideoCallStore";
 import { useChatsStore } from "../../stores/ChatsStore";
 import { userUserStore } from "../../stores/UserStore";
 import { useNavigation } from "@react-navigation/native";
-import { useToast } from "native-base";
+import { Icon, useToast } from "native-base";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function VideoCall() {
   const [remoteStream, setRemoteStream] = useState(null);
@@ -88,18 +90,21 @@ export default function VideoCall() {
   };
   function listenDisconnect() {
     peerConnection.current.oniceconnectionstatechange = function () {
-      if (
-        !["disconnected", "closed"].includes(
-          peerConnection?.current?.iceConnectionState
+      try {
+        if (
+          !["disconnected", "closed"].includes(
+            peerConnection?.current?.iceConnectionState
+          )
         )
-      )
-        return;
-      setChannelId(null);
-      setRemoteStream(null);
-      setLocalStream(null);
-      setWebcamStarted(null);
-      peerConnection.current = null;
-      navigation.navigate("ChatMessages");
+          return;
+        setChannelId(null);
+        setRemoteStream(null);
+        setLocalStream(null);
+        setWebcamStarted(null);
+        peerConnection.current = null;
+        videoCallStore.setChannelIdToJoin(null);
+        navigation.navigate("Home");
+      } catch (e) {}
     };
   }
   async function startCall() {
@@ -203,10 +208,18 @@ export default function VideoCall() {
     }
   }, [videoCallStore.channelIdToJoin]);
   useEffect(() => {
-    if (videoCallStore.channelIdToJoin === null) {
-      startWebcam().then(() => startCall());
-    }
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (videoCallStore.channelIdToJoin === null) {
+        startWebcam().then(() => startCall());
+        setTimeout(() => {
+          if (peerConnection?.current?.iceConnectionState !== "completed") {
+            closeCall();
+          }
+        }, 7000);
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <KeyboardAvoidingView style={styles.body} behavior="position">
       <SafeAreaView style={styles.sav}>
@@ -227,11 +240,41 @@ export default function VideoCall() {
             mirror
           />
         )}
-        {webcamStarted && <Button title="Colgar" onPress={closeCall} />}
+        {webcamStarted && (
+          <View
+            style={{
+              position: "absolute",
+              bottom: 20,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity
+              onPress={closeCall}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#dc2626",
+              }}
+            >
+              <Icon
+                as={FontAwesome}
+                style={{ color: "white", marginLeft: 5 }}
+                name="close"
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <View style={styles.buttons}>
-          {!webcamStarted && (
-            <Button title="Start webcam" onPress={startWebcam} />
-          )}
+          {/*{!webcamStarted && (*/}
+          {/*  <Button title="Start webcam" onPress={startWebcam} />*/}
+          {/*)}*/}
           {/*{webcamStarted && <Button title="Start call" onPress={startCall} />}*/}
           {/*{webcamStarted && (*/}
           {/*  <View style={{ flexDirection: "row" }}>*/}

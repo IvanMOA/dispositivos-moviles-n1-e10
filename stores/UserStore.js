@@ -7,9 +7,12 @@ export const userUserStore = create((set) => ({
   fetchUserError: null,
   async fetchUser(uid) {
     const docSS = await getDoc(doc(firestore, "users", uid));
-    this.user = {
-      ...docSS.data(),
-      id: uid,
-    };
+    set({
+      isFetchingUser: false,
+      user: {
+        ...docSS.data(),
+        id: uid,
+      },
+    });
   },
 }));

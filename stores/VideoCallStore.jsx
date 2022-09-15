@@ -11,6 +11,8 @@ import { firestore } from "../firebase";
 export const useVideoCallStore = create((set) => ({
   channelIdToJoin: null,
   setChannelIdToJoin(chId) {
-    this.channelIdToJoin = chId;
+    set({
+      channelIdToJoin: chId,
+    });
   },
 }));

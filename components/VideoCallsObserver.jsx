@@ -63,6 +63,7 @@ export default function VideoCallsObserver() {
           });
           const tryJoinCall = () => {
             videoCallStore.setChannelIdToJoin(channel.id);
+            toast.closeAll();
             navigation.navigate("VideoCall");
           };
           toast.show({
@@ -81,6 +82,6 @@ export default function VideoCallsObserver() {
       }
     );
     return () => unsubscribe();
-  }, [userStore.user]);
+  }, [userStore?.user?.id]);
   return <View></View>;
 }

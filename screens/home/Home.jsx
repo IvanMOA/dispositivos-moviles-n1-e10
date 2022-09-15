@@ -40,7 +40,6 @@ export default function Home() {
       ...doc.data(),
     }))
     ?.filter((user) => user.email !== userStore?.user?.email);
-
   return (
     <View>
       <Stack space={4}>
