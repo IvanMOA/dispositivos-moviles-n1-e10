@@ -215,7 +215,7 @@ export default function VideoCall() {
           if (peerConnection?.current?.iceConnectionState !== "completed") {
             closeCall();
           }
-        }, 7000);
+        }, 70000);
       }
     });
     return unsubscribe;
