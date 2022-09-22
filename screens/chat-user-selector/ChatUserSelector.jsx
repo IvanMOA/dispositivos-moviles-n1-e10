@@ -10,7 +10,8 @@ export default function ChatUserSelector() {
   const [chatsSS, isFetchingChats, fetchChatsError] = useCollection(
     query(
       collection(firestore, "chats"),
-      where("userIds", "array-contains-any", [userStore.user.id])
+      where("userIds", "array-contains-any", [userStore.user.id]),
+      where("accepted", "==", true)
     )
   );
   const chats = chatsSS?.docs?.map((doc) => ({

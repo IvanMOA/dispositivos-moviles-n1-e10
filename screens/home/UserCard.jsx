@@ -36,6 +36,7 @@ export default function UserCard({ user }) {
           userIds: [userStore.user.id, user.id],
           createdByUser: userStore.user,
           createdToUser: user,
+          accepted: false,
           createdAt: new Date(),
         });
         toast.show({

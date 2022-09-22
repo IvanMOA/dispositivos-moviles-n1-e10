@@ -27,6 +27,10 @@ export const en = {
   chat: "Chat",
   write_your_message: "Write your message",
   no_messages_found: "No messages found",
+  no_pending_chats: "You don't have any pending chats to accept",
+  wants_to_talk_with_you: "wants to start a chat with you",
+  chats_pending_to_accept: "Chats to accept",
+  accept: "Accept",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {

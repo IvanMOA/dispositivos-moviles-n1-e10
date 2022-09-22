@@ -215,7 +215,7 @@ export default function VideoCall() {
           if (peerConnection?.current?.iceConnectionState !== "completed") {
             closeCall();
           }
-        }, 7000);
+        }, 30000);
       }
     });
     return unsubscribe;
@@ -223,7 +223,7 @@ export default function VideoCall() {
   return (
     <KeyboardAvoidingView style={styles.body} behavior="position">
       <SafeAreaView style={styles.sav}>
-        {remoteStream && (
+        {remoteStream !== null && (
           <RTCView
             streamURL={remoteStream?.toURL()}
             style={{ ...styles.stream, ...styles.other }}
@@ -231,8 +231,7 @@ export default function VideoCall() {
             mirror
           />
         )}
-
-        {localStream && (
+        {localStream !== null && (
           <RTCView
             streamURL={localStream?.toURL()}
             style={{ ...styles.stream, ...styles.me }}

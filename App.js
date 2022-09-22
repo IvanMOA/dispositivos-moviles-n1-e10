@@ -31,6 +31,7 @@ import { useChatsStore } from "./stores/ChatsStore";
 import { FontAwesome } from "@expo/vector-icons";
 import VideoCall from "./screens/video-call/VideoCall";
 import VideoCallsObserver from "./components/VideoCallsObserver";
+import PendingAcceptableChats from "./screens/pending-acceptable-chats/PendingAcceptableChats";
 const Drawer = createDrawerNavigator();
 const requestCameraPermission = async () => {
   try {
@@ -117,6 +118,13 @@ export default function App() {
                 }}
               />
               <Drawer.Screen
+                name="PendingAcceptableChats"
+                component={PendingAcceptableChats}
+                options={{
+                  headerTitle: (props) => <HeaderTitle />,
+                }}
+              />
+              <Drawer.Screen
                 name="ChatMessages"
                 component={ChatMessages}
                 options={({ navigation }) => ({
@@ -185,7 +193,10 @@ function MenuItems({ navigation }) {
         text={t("chat")}
         onPress={() => navigation.navigate("Chat")}
       />
-
+      <MenuButtonItem
+        text={t("chats_pending_to_accept")}
+        onPress={() => navigation.navigate("PendingAcceptableChats")}
+      />
       <MenuButtonItem text={t("sign_out")} onPress={logout} />
     </DrawerContentScrollView>
   );

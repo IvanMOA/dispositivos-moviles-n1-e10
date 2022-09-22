@@ -1,4 +1,4 @@
-package com.dispositivosmovilesn4equipo9.newarchitecture.modules;
+package com.axelimo.dispositivosmovilesn4equipo9.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

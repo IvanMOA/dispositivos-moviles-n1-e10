@@ -1,4 +1,4 @@
-package com.dispositivosmovilesn4equipo9.newarchitecture;
+package com.axelimo.dispositivosmovilesn4equipo9.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.dispositivosmovilesn4equipo9.BuildConfig;
-import com.dispositivosmovilesn4equipo9.newarchitecture.components.MainComponentsRegistry;
-import com.dispositivosmovilesn4equipo9.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.axelimo.dispositivosmovilesn4equipo9.BuildConfig;
+import com.axelimo.dispositivosmovilesn4equipo9.newarchitecture.components.MainComponentsRegistry;
+import com.axelimo.dispositivosmovilesn4equipo9.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
