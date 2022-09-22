@@ -32,7 +32,10 @@ export default function PendingAcceptableChats({}) {
         <Text> {t("no_pending_chats")} </Text>
       ) : (
         pendingAcceptableChats.map((pendingAcceptableChat) => (
-          <PendingAcceptableChat chat={pendingAcceptableChat} />
+          <PendingAcceptableChat
+            key={pendingAcceptableChat.id}
+            chat={pendingAcceptableChat}
+          />
         ))
       )}
     </View>

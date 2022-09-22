@@ -5,8 +5,10 @@ import { userUserStore } from "../../stores/UserStore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
 import { firestore } from "../../firebase";
+import { useI18n } from "../../components/I18nProvider";
 export default function ChatUserSelector() {
   const userStore = userUserStore();
+  const { t } = useI18n();
   const [chatsSS, isFetchingChats, fetchChatsError] = useCollection(
     query(
       collection(firestore, "chats"),
@@ -27,7 +29,7 @@ export default function ChatUserSelector() {
         ) : fetchChatsError ? (
           <Text>{fetchChatsError.message}</Text>
         ) : chats.length === 0 ? (
-          <Text>No se encontraron chats</Text>
+          <Text>{t("empty_chats_list")}</Text>
         ) : (
           chats.map((chat) => (
             <ChatUserSelectorCard key={chat.id} chat={chat} />

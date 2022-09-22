@@ -2,15 +2,18 @@ import React, { createContext, useContext, useState } from "react";
 import { en, zodCustomErrorMapEn } from "./locales/en";
 import { es, zodCustomErrorMapEs } from "./locales/es";
 import { z } from "zod";
+import { de, zodCustomErrorMapDe } from "./locales/de";
 
 export const i18nContext = createContext({});
 const langs = {
   en: en,
   es: es,
+  de: de,
 };
 const zodErrorMaps = {
   es: zodCustomErrorMapEs,
   en: zodCustomErrorMapEn,
+  de: zodCustomErrorMapDe,
 };
 const initialLang = "en";
 z.setErrorMap(zodErrorMaps[initialLang]);

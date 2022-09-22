@@ -7,6 +7,7 @@ export function LangSelector({ style }) {
   const langs = {
     es: "🇲🇽",
     en: "🇺🇸",
+    de: "🇩🇪",
   };
   return (
     <Menu

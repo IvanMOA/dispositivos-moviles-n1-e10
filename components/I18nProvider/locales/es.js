@@ -31,6 +31,7 @@ export const es = {
   wants_to_talk_with_you: "quiere iniciar un chat contigo",
   chats_pending_to_accept: "Chats a aceptar",
   accept: "Aceptar",
+  empty_chats_list: "No tienes chats",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {
