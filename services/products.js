@@ -2,8 +2,8 @@ import { addDoc } from "firebase/firestore";
 import { productsCollection } from "../firebase";
 import { uploadImage } from "../helpers/uploadImage";
 
-export async function createProduct(product) {
-  await addDoc(productsCollection, {
+export async function createProduct(userId, product) {
+  await addDoc(productsCollection(userId), {
     ...product,
     productImage: await uploadImage(product.productImage),
   });

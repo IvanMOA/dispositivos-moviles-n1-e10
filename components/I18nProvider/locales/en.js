@@ -38,6 +38,7 @@ export const en = {
   description: "Description",
   price: "Price",
   add_a_new_product: "Add a new product",
+  please_select_an_image: "Please select an image",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {
