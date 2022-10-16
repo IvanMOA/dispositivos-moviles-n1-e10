@@ -52,9 +52,6 @@ export default function Home() {
           <Text mt={5}>{t("you_are_selling")}</Text>
         </Stack>
         {userStore?.user?.role === "buyer" ? <BuyerHome /> : <SellerHome />}
-        {/*<View style={styles.userCardsContainer}>*/}
-        {/*  {users && users.map((user) => <UserCard key={user.id} user={user} />)}*/}
-        {/*</View>*/}
       </Stack>
     </View>
   );

@@ -33,6 +33,11 @@ export const en = {
   accept: "Accept",
   empty_chats_list: "You don't have any chats",
   you_are_selling: "You are selling",
+  create_product: "Add product",
+  title: "Title",
+  description: "Description",
+  price: "Price",
+  add_a_new_product: "Add a new product",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {
