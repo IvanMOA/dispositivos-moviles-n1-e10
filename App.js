@@ -32,6 +32,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import VideoCall from "./screens/video-call/VideoCall";
 import VideoCallsObserver from "./components/VideoCallsObserver";
 import PendingAcceptableChats from "./screens/pending-acceptable-chats/PendingAcceptableChats";
+import { theme } from "./theme";
 const Drawer = createDrawerNavigator();
 const requestCameraPermission = async () => {
   try {
@@ -78,7 +79,7 @@ export default function App() {
     };
   }, [userStore.user]);
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <NavigationContainer>
         <I18nProvider>
           <AuthProvider>

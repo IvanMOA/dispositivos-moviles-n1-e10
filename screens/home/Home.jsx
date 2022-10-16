@@ -23,6 +23,8 @@ import { query, collection, setDoc, doc } from "firebase/firestore";
 import UserCard from "./UserCard";
 import { useNavigation } from "@react-navigation/native";
 import { useVideoCallStore } from "../../stores/VideoCallStore";
+import { BuyerHome } from "./BuyerHome";
+import { SellerHome } from "./SellerHome";
 
 export default function Home() {
   const { user } = useAuthStore();
@@ -44,16 +46,15 @@ export default function Home() {
     <View>
       <Stack space={4}>
         <Stack px={5}>
-          <Text>
+          <Text style={styles.welcomeText}>
             {t("welcome")} {userStore.user.name}
           </Text>
-          <Text>
-            {t("role")}: {t(userStore.user.role)}
-          </Text>
+          <Text mt={5}>{t("you_are_selling")}</Text>
         </Stack>
-        <View style={styles.userCardsContainer}>
-          {users && users.map((user) => <UserCard key={user.id} user={user} />)}
-        </View>
+        {userStore?.user?.role === "buyer" ? <BuyerHome /> : <SellerHome />}
+        {/*<View style={styles.userCardsContainer}>*/}
+        {/*  {users && users.map((user) => <UserCard key={user.id} user={user} />)}*/}
+        {/*</View>*/}
       </Stack>
     </View>
   );
@@ -62,5 +63,10 @@ const styles = StyleSheet.create({
   userCardsContainer: {
     display: "flex",
     flexDirection: "column",
+  },
+  welcomeText: {
+    fontWeight: "500",
+    fontSize: 20,
+    marginTop: 30,
   },
 });
