@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { Colors } from "../../values/colors";
 import { SellableItemCard } from "./SellableItemCard";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import {
   useNavigation,
   useRoute,
@@ -30,7 +30,7 @@ export function SellerHome() {
           label={<Text color="primary.50">Producto</Text>}
           backgroundColor="primary.800"
           color="red.500"
-          icon={<Icon color="primary.50" as={AntDesign} name="plus" />}
+          icon={<Icon color="primary.50" as={FontAwesome} name="plus" />}
         />
       )}
     </View>

@@ -8,6 +8,16 @@
     ],
     "android": {
       "package": "com.axelimo.dispositivosmovilesn4equipo9"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Camera",
+          "cameraPermission": "Camera"
+        }
+      ]
+    ]
   }
 }
+

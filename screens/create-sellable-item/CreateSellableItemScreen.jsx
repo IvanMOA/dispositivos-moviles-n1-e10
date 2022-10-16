@@ -6,6 +6,7 @@ import {
   Pressable,
   Stack,
   Text,
+  useToast,
   View,
 } from "native-base";
 import { StyleSheet } from "react-native";
@@ -14,24 +15,39 @@ import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useI18n } from "../../components/I18nProvider";
 import { useRoute } from "@react-navigation/native";
+import { ProductImagePicker } from "./ImagePicker";
+import { uploadImage } from "../../helpers/uploadImage";
+import { createProduct } from "../../services/products";
 
 export function CreateSellableItemScreen() {
   const { t } = useI18n();
+  const toast = useToast();
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
   const [form, setForm] = useState({
     title: "",
     description: "",
     price: "",
+    productImage: "",
   });
   const [validationErrorBag, setValidationErrorBag] = useState({});
   const [error, setError] = useState(null);
-  async function createProduct() {}
+  async function safeCreateProduct() {
+    setIsCreatingProduct(true);
+    try {
+      await createProduct(form);
+    } catch (error) {
+      toast.show({ description: error.message });
+    } finally {
+      setIsCreatingProduct(false);
+    }
+  }
   const createOnChangeHandler = (fieldName) => (newValue) =>
     setForm((prevFormValues) => ({ ...prevFormValues, [fieldName]: newValue }));
   const onChange = {
     title: createOnChangeHandler("title"),
     description: createOnChangeHandler("description"),
     price: createOnChangeHandler("price"),
+    productImage: createOnChangeHandler("productImage"),
   };
   return (
     <View style={style.container}>
@@ -59,9 +75,10 @@ export function CreateSellableItemScreen() {
             <Input onChangeText={onChange.price} defaultValue={form.price} />
             <FormErrorMessage name="price" errorBag={validationErrorBag} />
           </FormControl>
+          <ProductImagePicker onImage={onChange.productImage} />
           <Button
             isLoading={isCreatingProduct}
-            onPress={createProduct}
+            onPress={safeCreateProduct}
             style={{ width: "100%", marginTop: 10 }}
           >
             <Text color="primary.800">{t("create_product")}</Text>

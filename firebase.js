@@ -26,3 +26,4 @@ export const offerCandidatesCollection = (channelId) =>
   collection(firestore, "channels", channelId, "offerCandidates");
 export const answerCandidatesCollection = (channelId) =>
   collection(firestore, "channels", channelId, "answerCandidates");
+export const productsCollection = collection(firestore, "products");
