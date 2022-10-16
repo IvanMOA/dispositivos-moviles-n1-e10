@@ -2,21 +2,25 @@ import { Image, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
 import { Colors } from "../../values/colors";
 import { useState } from "react";
-export function SellableItemCard() {
+export function SellableItemCard({ product }) {
   let [imageURL, setImageURL] = useState(
     "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
   );
   return (
     <View style={styles.sellableItemCard}>
       {imageURL && (
-        <Image alt="" source={{ uri: imageURL }} style={styles.image} />
+        <Image
+          alt=""
+          source={{ uri: product.productImage }}
+          style={styles.image}
+        />
       )}
-      <View>
-        <Text style={styles.sellableItemCardTitle}>Comida gourmet</Text>
-        <Text style={styles.sellableItemCardDescription}>
-          Disfruta de la mejor comida de toda ciudad universitaria
+      <View style={{ flex: 1 }}>
+        <Text style={styles.sellableItemCardTitle}>{product.title}</Text>
+        <Text noOfLines={2} style={styles.sellableItemCardDescription}>
+          {product.description}
         </Text>
-        <Text style={styles.sellableItemCardPrice}>$50</Text>
+        <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
       </View>
     </View>
   );

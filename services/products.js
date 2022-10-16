@@ -6,5 +6,6 @@ export async function createProduct(userId, product) {
   await addDoc(productsCollection(userId), {
     ...product,
     productImage: await uploadImage(product.productImage),
+    createdAt: new Date(),
   });
 }

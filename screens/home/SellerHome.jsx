@@ -1,6 +1,6 @@
-import { Fab, Icon, Image, Text, View } from "native-base";
+import { Fab, Icon, Image, Spinner, Text, View } from "native-base";
 import { StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "../../values/colors";
 import { SellableItemCard } from "./SellableItemCard";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
@@ -10,7 +10,19 @@ import {
   use,
   useNavigationState,
 } from "@react-navigation/native";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
+import { firestore, productsCollection } from "../../firebase";
+import { userUserStore } from "../../stores/UserStore";
 export function SellerHome() {
+  const { user } = userUserStore();
+  const [productsSS, isFetchingProducts, fetchProductsError] = useCollection(
+    query(productsCollection(user.id), orderBy("createdAt", "asc"))
+  );
+  const products = productsSS?.docs?.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
   const navigation = useNavigation();
   const [showFab, setShowFab] = useState(false);
   function onFabPress() {
@@ -23,7 +35,15 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
-      <SellableItemCard />
+      {isFetchingProducts ? (
+        <Spinner />
+      ) : fetchProductsError ? (
+        <Text>{fetchProductsError.message}</Text>
+      ) : products.length === 0 ? (
+        <Text>{t("no_products_found")}</Text>
+      ) : (
+        products.map((product) => <SellableItemCard product={product} />)
+      )}
       {showFab && (
         <Fab
           onPress={onFabPress}
