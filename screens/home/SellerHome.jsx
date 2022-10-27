@@ -14,8 +14,10 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
 import { firestore, productsCollection } from "../../firebase";
 import { userUserStore } from "../../stores/UserStore";
+import { useI18n } from "../../components/I18nProvider";
 export function SellerHome() {
   const { user } = userUserStore();
+  const { t } = useI18n();
   const [productsSS, isFetchingProducts, fetchProductsError] = useCollection(
     query(productsCollection(user.id), orderBy("createdAt", "asc"))
   );
@@ -35,7 +37,6 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
-      <Text mt={5}>{t("you_are_selling")}</Text>
       <SellableItemCard
         product={{
           title: "Galleta",
