@@ -35,6 +35,7 @@ import PendingAcceptableChats from "./screens/pending-acceptable-chats/PendingAc
 import { theme } from "./theme";
 import { CreateSellableItemScreen } from "./screens/create-sellable-item/CreateSellableItemScreen";
 import ProductDetailScreen from "./screens/product-detail/ProductDetailScreen";
+import MyLocation from "./screens/my-location/MyLocation";
 const Drawer = createDrawerNavigator();
 const requestCameraPermission = async () => {
   try {
@@ -179,6 +180,7 @@ export default function App() {
                 component={ProductDetailScreen}
                 options={({ navigation }) => ({
                   headerTintColor: "transparent",
+
                   headerTransparent: true,
                   headerLeft: () => (
                     <Pressable
@@ -191,6 +193,13 @@ export default function App() {
                     </Pressable>
                   ),
                 })}
+              />
+              <Drawer.Screen
+                options={{
+                  headerTitle: "Mi ubicación",
+                }}
+                name="MyLocation"
+                component={MyLocation}
               />
             </Drawer.Navigator>
           </AuthProvider>
@@ -218,6 +227,7 @@ function HeaderTitle({ children }) {
 
 function MenuItems({ navigation }) {
   const { t } = useI18n();
+  const userStore = userUserStore();
   async function logout() {
     await signOut(auth);
   }
@@ -236,6 +246,12 @@ function MenuItems({ navigation }) {
         text={t("chats_pending_to_accept")}
         onPress={() => navigation.navigate("PendingAcceptableChats")}
       />
+      {userStore.user.role === "seller" && (
+        <MenuButtonItem
+          text="Mi ubicación"
+          onPress={() => navigation.navigate("MyLocation")}
+        />
+      )}
       <MenuButtonItem text={t("sign_out")} onPress={logout} />
     </DrawerContentScrollView>
   );

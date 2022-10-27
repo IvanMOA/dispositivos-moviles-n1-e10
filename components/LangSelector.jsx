@@ -9,6 +9,7 @@ export function LangSelector({ style }) {
     en: "🇺🇸",
     de: "🇩🇪",
   };
+
   return (
     <Menu
       style={style}

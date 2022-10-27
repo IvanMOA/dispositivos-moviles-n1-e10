@@ -3,14 +3,16 @@ import { userUserStore } from "../../stores/UserStore";
 import { useI18n } from "../../components/I18nProvider";
 import { signOut } from "firebase/auth";
 import { auth, firestore } from "../../firebase";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import {
+  View,
   Box,
   Button,
   HamburgerIcon,
   HStack,
   Menu,
   Pressable,
+  ScrollView,
   Stack,
   Text,
   useToast,
@@ -49,7 +51,11 @@ export default function Home() {
           <Text style={styles.welcomeText}>
             {t("welcome")} {userStore.user.name}
           </Text>
-          <Text mt={5}>{t("you_are_selling")}</Text>
+          <Text mt={1}>
+            {userStore.user.role === "seller"
+              ? t("you_are_selling")
+              : "Productos disponibles"}
+          </Text>
         </Stack>
         {userStore?.user?.role === "buyer" ? <BuyerHome /> : <SellerHome />}
       </Stack>

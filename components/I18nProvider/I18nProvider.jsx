@@ -15,7 +15,7 @@ const zodErrorMaps = {
   en: zodCustomErrorMapEn,
   de: zodCustomErrorMapDe,
 };
-const initialLang = "en";
+const initialLang = "es";
 z.setErrorMap(zodErrorMaps[initialLang]);
 export function I18nProvider({ children }) {
   const [i18nStoreState, setI18nStoreState] = useState({

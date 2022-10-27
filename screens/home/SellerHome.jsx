@@ -35,6 +35,7 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
+      <Text mt={5}>{t("you_are_selling")}</Text>
       <SellableItemCard
         product={{
           title: "Galleta",
