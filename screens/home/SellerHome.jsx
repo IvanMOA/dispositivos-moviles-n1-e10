@@ -35,15 +35,34 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
-      {isFetchingProducts ? (
-        <Spinner />
-      ) : fetchProductsError ? (
-        <Text>{fetchProductsError.message}</Text>
-      ) : products.length === 0 ? (
-        <Text>{t("no_products_found")}</Text>
-      ) : (
-        products.map((product) => <SellableItemCard product={product} />)
-      )}
+      <SellableItemCard
+        product={{
+          title: "Galleta",
+          description:
+            "Delicosas galletas con chispas de chocolate y sin azucar ni harina refinada",
+          image:
+            "https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/UISY3JFND5AABPDPM66DOW6HJ4.jpg",
+          price: 20,
+        }}
+      />
+      <SellableItemCard
+        product={{
+          title: "Muffin",
+          description: "Muffin de vanilla con moras",
+          image:
+            "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/68dba1fc-cc29-461e-8c3c-540f91cbba14/Derivates/469d2c85-6dc3-4d05-8143-6dbeb56ad68c.jpg",
+          price: 20,
+        }}
+      />
+      {/*{isFetchingProducts ? (*/}
+      {/*  <Spinner />*/}
+      {/*) : fetchProductsError ? (*/}
+      {/*  <Text>{fetchProductsError.message}</Text>*/}
+      {/*) : products.length === 0 ? (*/}
+      {/*  <Text>{t("no_products_found")}</Text>*/}
+      {/*) : (*/}
+      {/*  products.map((product) => <SellableItemCard product={product} />)*/}
+      {/*)}*/}
       {showFab && (
         <Fab
           onPress={onFabPress}

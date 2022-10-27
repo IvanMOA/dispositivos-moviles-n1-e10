@@ -4,6 +4,7 @@ import {
   Icon,
   Input,
   Pressable,
+  Select,
   Stack,
   Text,
   useToast,
@@ -106,6 +107,20 @@ export function CreateSellableItemScreen() {
               defaultValue={form.price}
             />
             <FormErrorMessage name="price" errorBag={validationErrorBag} />
+          </FormControl>
+          <FormControl isInvalid={!!validationErrorBag.price}>
+            <FormControl.Label>{t("category")}</FormControl.Label>
+            <Select
+              keyboardType="numeric"
+              onChangeText={onChange.category}
+              defaultValue={form.category}
+            >
+              <Select.Item label="Desayuno" value="Desayuno" />
+              <Select.Item label="Postre" value="Postre" />
+              <Select.Item label="Snack" value="Snack" />
+              <Select.Item label="Almuerzo" value="Almuerzo" />
+            </Select>
+            <FormErrorMessage name="category" errorBag={validationErrorBag} />
           </FormControl>
           <ProductImagePicker onImage={onChange.productImage} />
           <Text color="red.500">

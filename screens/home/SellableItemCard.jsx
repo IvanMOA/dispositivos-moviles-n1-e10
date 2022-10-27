@@ -1,20 +1,30 @@
 import { Image, Text, View } from "native-base";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../../values/colors";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 export function SellableItemCard({ product }) {
-  let [imageURL, setImageURL] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
-  );
+  const navigation = useNavigation();
+  // let [imageURL, setImageURL] = useState(
+  //   "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
+  // );
   return (
-    <View style={styles.sellableItemCard}>
-      {imageURL && (
-        <Image
-          alt=""
-          source={{ uri: product.productImage }}
-          style={styles.image}
-        />
-      )}
+    <TouchableOpacity
+      onPress={() => navigation.navigate("ProductDetail")}
+      style={styles.sellableItemCard}
+    >
+      {/*{imageURL && (*/}
+      {/*  <Image*/}
+      {/*    alt=""t*/}
+      {/*    source={{ uri: product.productImage }}*/}
+      {/*    style={styles.image}*/}
+      {/*  />*/}
+      {/*)}*/}
+      <Image
+        source={{ uri: product.image }}
+        alt="Comida"
+        style={styles.image}
+      />
       <View style={{ flex: 1 }}>
         <Text style={styles.sellableItemCardTitle}>{product.title}</Text>
         <Text noOfLines={2} style={styles.sellableItemCardDescription}>
@@ -22,7 +32,7 @@ export function SellableItemCard({ product }) {
         </Text>
         <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({
@@ -39,6 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     display: "flex",
     flexDirection: "row",
+    marginBottom: 15,
   },
   sellableItemCardTitle: {
     fontSize: 16,

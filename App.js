@@ -34,6 +34,7 @@ import VideoCallsObserver from "./components/VideoCallsObserver";
 import PendingAcceptableChats from "./screens/pending-acceptable-chats/PendingAcceptableChats";
 import { theme } from "./theme";
 import { CreateSellableItemScreen } from "./screens/create-sellable-item/CreateSellableItemScreen";
+import ProductDetailScreen from "./screens/product-detail/ProductDetailScreen";
 const Drawer = createDrawerNavigator();
 const requestCameraPermission = async () => {
   try {
@@ -158,6 +159,24 @@ export default function App() {
               <Drawer.Screen
                 name="CreateSellableItem"
                 component={CreateSellableItemScreen}
+                options={({ navigation }) => ({
+                  headerTintColor: "transparent",
+                  headerTransparent: true,
+                  headerLeft: () => (
+                    <Pressable
+                      onPress={() => navigation.navigate("Home")}
+                      style={{
+                        marginLeft: 20,
+                      }}
+                    >
+                      <Icon as={FontAwesome} name="chevron-left" />
+                    </Pressable>
+                  ),
+                })}
+              />
+              <Drawer.Screen
+                name="ProductDetail"
+                component={ProductDetailScreen}
                 options={({ navigation }) => ({
                   headerTintColor: "transparent",
                   headerTransparent: true,

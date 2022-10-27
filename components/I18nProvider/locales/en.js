@@ -40,6 +40,7 @@ export const en = {
   add_a_new_product: "Add a new product",
   please_select_an_image: "Please select an image",
   no_products_found: "Could not find any products",
+  category: "Category",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {
