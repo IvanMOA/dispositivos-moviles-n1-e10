@@ -9,7 +9,7 @@ export default function ProductDetailScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Image
         source={{
-          uri: "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/68dba1fc-cc29-461e-8c3c-540f91cbba14/Derivates/469d2c85-6dc3-4d05-8143-6dbeb56ad68c.jpg",
+          uri: "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",
         }}
         alt="Comida"
         style={styles.image}
@@ -23,22 +23,16 @@ export default function ProductDetailScreen() {
             </Text>
           </Button>
         </View>
-        <Text style={styles.sellableItemCardPrice}>$20</Text>
+        <Text style={styles.sellableItemCardPrice}>$120</Text>
         <Stack direction="row" alignItems="center">
           <Text fontSize="xl" mt={1} mr={4}>
-            Muffin
+            Shield Ethernet
           </Text>
-          <Text style={styles.foodTypeText}>Postre</Text>
+          <Text style={styles.foodTypeText}>Shield</Text>
         </Stack>
         <Text fontSize="sm" color="gray.500">
-          Muffin de vanilla con moras
+          Shield Ethernet nuevo, no se utilizó para ningún proyecto
         </Text>
-        <Image
-          style={styles.mapContainer}
-          source={{
-            uri: "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg",
-          }}
-        />
       </View>
     </ScrollView>
   );

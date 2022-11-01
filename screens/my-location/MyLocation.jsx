@@ -4,11 +4,10 @@ import {
   HStack,
   Image,
   Input,
+  ScrollView,
   Select,
   Stack,
-  Switch,
   Text,
-  ScrollView,
   View,
 } from "native-base";
 import { StyleSheet } from "react-native";
@@ -21,19 +20,10 @@ export default function MyLocation() {
         <Text fontSize="lg" fontWeight="bold" mx={3} mt={2}>
           Mostrar mi ubicación
         </Text>
-        <Switch mt={3} size="md" />
       </HStack>
       <Text color="gray.600" mx={3} mt={2}>
-        Si no compartes tu ubicación las personas tardarán más en encontrarte
+        Compartiendo tu ubicación ayudarás a que la gente te encuentre
       </Text>
-      <HStack justifyContent="center">
-        <Image
-          style={styles.mapContainer}
-          source={{
-            uri: "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg",
-          }}
-        />
-      </HStack>
       <View mx={3}>
         <FormControl>
           <FormControl.Label>Dependencia</FormControl.Label>
@@ -44,6 +34,10 @@ export default function MyLocation() {
           </Select>
         </FormControl>
         <FormControl>
+          <FormControl.Label>Salón</FormControl.Label>
+          <Input />
+        </FormControl>
+        <FormControl>
           <FormControl.Label>Nota</FormControl.Label>
           <Input defaultValue={""} />
           <FormControl.HelperText>
@@ -52,6 +46,14 @@ export default function MyLocation() {
         </FormControl>
         <Button mt={2}>Guardar</Button>
       </View>
+      <Stack py={5} alignItems="center">
+        <Image
+          alt={"Mapa"}
+          source={require("../../assets/ecommerce_icons_4.png")}
+          style={{ height: 200 }}
+          resizeMode="contain"
+        />
+      </Stack>
     </ScrollView>
   );
 }

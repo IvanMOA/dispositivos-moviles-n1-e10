@@ -44,7 +44,7 @@ export function SellerHome() {
             "Placa Arduino UNO con 1 mes de uso, luego de eso no se volvió a utilizar",
           image:
             "https://upload.wikimedia.org/wikipedia/commons/6/6c/Arduino316.jpg?w=144",
-          price: 20,
+          price: 240,
         }}
       />
       <SellableItemCard
@@ -54,7 +54,7 @@ export function SellerHome() {
             "Shield Ethernet nuevo, no se utilizó para ningún proyecto",
           image:
             "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",
-          price: 20,
+          price: 120,
         }}
       />
       {/*{isFetchingProducts ? (*/}
