@@ -246,7 +246,7 @@ function MenuItems({ navigation }) {
         text={t("chats_pending_to_accept")}
         onPress={() => navigation.navigate("PendingAcceptableChats")}
       />
-      {userStore.user.role === "seller" && (
+      {userStore?.user?.role === "seller" && (
         <MenuButtonItem
           text="Mi ubicación"
           onPress={() => navigation.navigate("MyLocation")}

@@ -39,20 +39,21 @@ export function SellerHome() {
     <View style={styles.container}>
       <SellableItemCard
         product={{
-          title: "Galleta",
+          title: "Arduino UNO",
           description:
-            "Delicosas galletas con chispas de chocolate y sin azucar ni harina refinada",
+            "Placa Arduino UNO con 1 mes de uso, luego de eso no se volvió a utilizar",
           image:
-            "https://cloudfront-us-east-1.images.arcpublishing.com/elespectador/UISY3JFND5AABPDPM66DOW6HJ4.jpg",
+            "https://upload.wikimedia.org/wikipedia/commons/6/6c/Arduino316.jpg?w=144",
           price: 20,
         }}
       />
       <SellableItemCard
         product={{
-          title: "Muffin",
-          description: "Muffin de vanilla con moras",
+          title: "Shield Ethernet",
+          description:
+            "Shield Ethernet nuevo, no se utilizó para ningún proyecto",
           image:
-            "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/68dba1fc-cc29-461e-8c3c-540f91cbba14/Derivates/469d2c85-6dc3-4d05-8143-6dbeb56ad68c.jpg",
+            "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",
           price: 20,
         }}
       />

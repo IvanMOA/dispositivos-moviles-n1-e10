@@ -4,6 +4,7 @@ import { useI18n } from "../../components/I18nProvider";
 import { signOut } from "firebase/auth";
 import { auth, firestore } from "../../firebase";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import HomeImg from "../../assets/computer_illustration_2.png";
 import {
   View,
   Box,
@@ -16,6 +17,7 @@ import {
   Stack,
   Text,
   useToast,
+  Image,
 } from "native-base";
 import { LangSelector } from "../../components/LangSelector";
 import React from "react";
@@ -47,16 +49,26 @@ export default function Home() {
   return (
     <View>
       <Stack space={4}>
-        <Stack px={5}>
-          <Text style={styles.welcomeText}>
-            {t("welcome")} {userStore.user.name}
-          </Text>
-          <Text mt={1}>
-            {userStore.user.role === "seller"
-              ? t("you_are_selling")
-              : "Productos disponibles"}
-          </Text>
-        </Stack>
+        <HStack
+          px={5}
+          py={5}
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Stack width="60%">
+            <Text style={styles.welcomeText}>
+              {t("welcome")} {userStore.user.name}
+            </Text>
+            <Text mt={1}>
+              {userStore.user.role === "seller"
+                ? t("you_are_selling")
+                : "Productos disponibles"}
+            </Text>
+          </Stack>
+          <Image
+            source={require("../../assets/computer_illustration_2.png")}
+            style={{ width: "40%", height: "auto" }}
+          />
+        </HStack>
         {userStore?.user?.role === "buyer" ? <BuyerHome /> : <SellerHome />}
       </Stack>
     </View>
