@@ -1,30 +1,11 @@
-import {
-  Box,
-  Fab,
-  FormControl,
-  Icon,
-  Image,
-  ScrollView,
-  Slider,
-  Spinner,
-  Text,
-  View,
-  VStack,
-} from "native-base";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
-import { Colors } from "../../values/colors";
+import { FormControl, Input, View } from "native-base";
+import { StyleSheet } from "react-native";
+import React from "react";
 import { SellableItemCard } from "./SellableItemCard";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import {
-  useNavigation,
-  useRoute,
-  use,
-  useNavigationState,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
-import { firestore, productsCollection } from "../../firebase";
+import { orderBy, query } from "firebase/firestore";
+import { productsCollection } from "../../firebase";
 import { userUserStore } from "../../stores/UserStore";
 
 export function BuyerHome() {
@@ -39,36 +20,12 @@ export function BuyerHome() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <ScrollView mb={5} horizontal={true}>
-        {["Postre", "Almuerzo", "Snack", "Comida", "Desayuno", "Cena"].map(
-          (category) => (
-            <TouchableOpacity>
-              <View
-                px={4}
-                py={1}
-                mx={2}
-                borderRadius={5}
-                style={{ backgroundColor: "#cccccc55" }}
-              >
-                <Text>{category}</Text>
-              </View>
-            </TouchableOpacity>
-          )
-        )}
-      </ScrollView>
-      <Box w="100%" mx={5} mb={5}>
-        <VStack space={4} w="75%" maxW={300}>
-          <FormControl isInvalid>
-            <FormControl.Label>Presupuesto</FormControl.Label>
-            <Slider defaultValue={50}>
-              <Slider.Track>
-                <Slider.FilledTrack />
-              </Slider.Track>
-              <Slider.Thumb />
-            </Slider>
-          </FormControl>
-        </VStack>
-      </Box>
+      <View mx={5} mb={5}>
+        <FormControl>
+          <FormControl.Label>Buscar</FormControl.Label>
+          <Input />
+        </FormControl>
+      </View>
       <View mx={5}>
         <SellableItemCard
           product={{

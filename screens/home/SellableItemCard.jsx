@@ -1,10 +1,13 @@
-import { Image, Text, View } from "native-base";
+import { Button, HStack, Icon, Image, Text, View } from "native-base";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../../values/colors";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { userUserStore } from "../../stores/UserStore";
+import { FontAwesome } from "@expo/vector-icons";
 export function SellableItemCard({ product }) {
   const navigation = useNavigation();
+  const userStore = userUserStore();
   // let [imageURL, setImageURL] = useState(
   //   "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
   // );
@@ -30,7 +33,38 @@ export function SellableItemCard({ product }) {
         <Text noOfLines={2} style={styles.sellableItemCardDescription}>
           {product.description}
         </Text>
-        <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
+        <View
+          mt={2}
+          flexDirection="row"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
+          <Text>Quedan: 3</Text>
+        </View>
+        <View
+          mt={2}
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-end"
+        >
+          {userStore.user?.role === "buyer" ? (
+            <Text color="primary.700">
+              Vendido por:{" "}
+              <Text color="primary.800" fontWeight="bold">
+                Juan Alejandro Alvarez
+              </Text>{" "}
+            </Text>
+          ) : (
+            <Button>
+              <Text>
+                {" "}
+                <Icon as={FontAwesome} name="check" /> Marcar 1 venta
+              </Text>
+            </Button>
+          )}
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -66,6 +100,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: 5,
-    marginTop: 10,
   },
 });

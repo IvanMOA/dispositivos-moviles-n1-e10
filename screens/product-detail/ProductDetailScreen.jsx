@@ -33,6 +33,23 @@ export default function ProductDetailScreen() {
         <Text fontSize="sm" color="gray.500">
           Shield Ethernet nuevo, no se utilizó para ningún proyecto
         </Text>
+        <View
+          mt={2}
+          flexDirection="row"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Text>Quedan: 3</Text>
+        </View>
+        <View mt={2} display="flex" flexDirection="row">
+          <Text color="primary.700">
+            Vendido por:{" "}
+            <Text color="primary.800" fontWeight="bold">
+              Juan Alejandro Alvarez
+            </Text>{" "}
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
