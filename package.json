@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
     "expo": "~46.0.9",
+    "expo-image-picker": "~13.3.1",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "expo-updates": "~0.14.5",
@@ -25,6 +26,7 @@
     "react-dom": "18.0.0",
     "react-firebase-hooks": "^5.0.3",
     "react-native": "0.69.5",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-gesture-handler": "^2.6.0",
     "react-native-image-picker": "^4.10.0",
     "react-native-reanimated": "^2.10.0",
@@ -36,8 +38,7 @@
     "text-encoding": "^0.7.0",
     "typescript": "^4.6.3",
     "zod": "^3.18.0",
-    "zustand": "^4.1.1",
-    "expo-image-picker": "~13.3.1"
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

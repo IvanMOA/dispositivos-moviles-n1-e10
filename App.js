@@ -36,6 +36,7 @@ import { theme } from "./theme";
 import { CreateSellableItemScreen } from "./screens/create-sellable-item/CreateSellableItemScreen";
 import ProductDetailScreen from "./screens/product-detail/ProductDetailScreen";
 import MyLocation from "./screens/my-location/MyLocation";
+import SellerStatistics from "./screens/statistics/SellerStatistics";
 const Drawer = createDrawerNavigator();
 const requestCameraPermission = async () => {
   try {
@@ -201,6 +202,13 @@ export default function App() {
                 name="MyLocation"
                 component={MyLocation}
               />
+              <Drawer.Screen
+                options={{
+                  headerTitle: "Estadísticas",
+                }}
+                name="SellerStatistics"
+                component={SellerStatistics}
+              />
             </Drawer.Navigator>
           </AuthProvider>
         </I18nProvider>
@@ -250,6 +258,12 @@ function MenuItems({ navigation }) {
         <MenuButtonItem
           text="Mi ubicación"
           onPress={() => navigation.navigate("MyLocation")}
+        />
+      )}
+      {userStore?.user?.role === "seller" && (
+        <MenuButtonItem
+          text="Mis estadísticas"
+          onPress={() => navigation.navigate("SellerStatistics")}
         />
       )}
       <MenuButtonItem text={t("sign_out")} onPress={logout} />
