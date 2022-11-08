@@ -2,8 +2,11 @@ import { ScrollView, Text, View } from "native-base";
 import { BarChart, LineChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import { Colors } from "../../values/colors";
+import { useI18n } from "../../components/I18nProvider";
+
 const screenWidth = Dimensions.get("window").width;
 export default function SellerStatistics() {
+  const { t } = useI18n();
   const data = {
     labels: ["22", "23", "24", "25", "26", "27", "28"],
     datasets: [
@@ -48,7 +51,7 @@ export default function SellerStatistics() {
   return (
     <ScrollView>
       <Text fontSize={18} color="gray.600" fontWeight="bold" mx={3} my={5}>
-        Ventas por día
+        {t("sales_per_day")}
       </Text>
       <LineChart
         data={data}
@@ -57,7 +60,7 @@ export default function SellerStatistics() {
         chartConfig={chartConfig}
       />
       <Text fontSize={18} color="gray.600" fontWeight="bold" mx={3} my={5}>
-        Ventas por mes
+        {t("sales_per_month")}
       </Text>
       <BarChart
         data={data2}
@@ -67,7 +70,7 @@ export default function SellerStatistics() {
         verticalLabelRotation={30}
       />
       <Text fontSize={18} color="gray.600" fontWeight="bold" mx={3} my={5}>
-        Productos más vendidos de la última semana
+        {t("last_week_most_sold_items")}
       </Text>
       <BarChart
         data={data3}

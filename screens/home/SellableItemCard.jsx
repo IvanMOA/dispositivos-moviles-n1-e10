@@ -5,9 +5,11 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { userUserStore } from "../../stores/UserStore";
 import { FontAwesome } from "@expo/vector-icons";
+import { useI18n } from "../../components/I18nProvider";
 export function SellableItemCard({ product }) {
   const navigation = useNavigation();
   const userStore = userUserStore();
+  const { t } = useI18n();
   // let [imageURL, setImageURL] = useState(
   //   "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
   // );
@@ -41,7 +43,7 @@ export function SellableItemCard({ product }) {
           justifyContent="space-between"
         >
           <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
-          <Text>Quedan: 3</Text>
+          <Text>{t("products_let")}: 3</Text>
         </View>
         <View
           mt={2}
@@ -51,7 +53,7 @@ export function SellableItemCard({ product }) {
         >
           {userStore.user?.role === "buyer" ? (
             <Text color="primary.700">
-              Vendido por:{" "}
+              {t("sold_by")}:{" "}
               <Text color="primary.800" fontWeight="bold">
                 Juan Alejandro Alvarez
               </Text>{" "}
@@ -60,7 +62,7 @@ export function SellableItemCard({ product }) {
             <Button>
               <Text>
                 {" "}
-                <Icon as={FontAwesome} name="check" /> Marcar 1 venta
+                <Icon as={FontAwesome} name="check" /> {t("mark_1_sold")}
               </Text>
             </Button>
           )}

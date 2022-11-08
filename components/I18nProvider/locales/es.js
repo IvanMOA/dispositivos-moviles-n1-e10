@@ -41,6 +41,13 @@ export const es = {
   please_select_an_image: "Por favor selecciona una imagen",
   no_products_found: "No se encontraron productos",
   category: "Categoría",
+  last_week_most_sold_items: "Productos más vendidos de la última semana",
+  sales_per_month: "Sales per month",
+  sales_per_day: "Ventas por día",
+  statistics: "Estadísticas",
+  products_let: "Quedan",
+  sold_by: "Vendido por",
+  mark_1_sold: "Marcar una venta",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {

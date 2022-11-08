@@ -7,7 +7,10 @@
       "**/*"
     ],
     "android": {
-      "package": "com.axelimo.dispositivosmovilesn4equipo9"
+      "package": "com.axelimo.dispositivosmovilesn4equipo9",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       [
@@ -17,7 +20,9 @@
           "cameraPermission": "Camera"
         }
       ]
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.axelimo.dispositivosmovilesn4equipo9"
+    }
   }
 }
-

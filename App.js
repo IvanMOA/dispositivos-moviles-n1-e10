@@ -256,13 +256,7 @@ function MenuItems({ navigation }) {
       />
       {userStore?.user?.role === "seller" && (
         <MenuButtonItem
-          text="Mi ubicación"
-          onPress={() => navigation.navigate("MyLocation")}
-        />
-      )}
-      {userStore?.user?.role === "seller" && (
-        <MenuButtonItem
-          text="Mis estadísticas"
+          text={t("statistics")}
           onPress={() => navigation.navigate("SellerStatistics")}
         />
       )}
