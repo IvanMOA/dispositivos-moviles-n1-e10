@@ -33,7 +33,7 @@ export const es = {
   accept: "Aceptar",
   empty_chats_list: "No tienes chats",
   you_are_selling: "Estás vendiendo",
-  create_product: "Agregar producto",
+  store_product: "Guardar producto",
   title: "Título",
   description: "Descripción",
   price: "Precio",
@@ -51,6 +51,7 @@ export const es = {
   pickup_point: "Punto de venta",
   serial_number: "Número de serie",
   stock: "Cantidad",
+  is_new: "Es nuevo",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {

@@ -33,7 +33,7 @@ import VideoCall from "./screens/video-call/VideoCall";
 import VideoCallsObserver from "./components/VideoCallsObserver";
 import PendingAcceptableChats from "./screens/pending-acceptable-chats/PendingAcceptableChats";
 import { theme } from "./theme";
-import { CreateSellableItemScreen } from "./screens/create-sellable-item/CreateSellableItemScreen";
+import { ProductFormScreen } from "./screens/create-sellable-item/ProductFormScreen";
 import ProductDetailScreen from "./screens/product-detail/ProductDetailScreen";
 import MyLocation from "./screens/my-location/MyLocation";
 import SellerStatistics from "./screens/statistics/SellerStatistics";
@@ -89,6 +89,7 @@ export default function App() {
           <AuthProvider>
             <VideoCallsObserver />
             <Drawer.Navigator
+              detachInactiveScreens={true}
               drawerContent={(props) => <MenuItems {...props} />}
             >
               <Drawer.Screen
@@ -159,10 +160,11 @@ export default function App() {
               />
               <Drawer.Screen name="VideoCall" component={VideoCall} />
               <Drawer.Screen
-                name="CreateSellableItem"
-                component={CreateSellableItemScreen}
+                name="ProductForm"
+                component={ProductFormScreen}
                 options={({ navigation }) => ({
                   headerTintColor: "transparent",
+                  unmountOnBlur: true,
                   headerTransparent: true,
                   headerLeft: () => (
                     <Pressable
@@ -181,7 +183,6 @@ export default function App() {
                 component={ProductDetailScreen}
                 options={({ navigation }) => ({
                   headerTintColor: "transparent",
-
                   headerTransparent: true,
                   headerLeft: () => (
                     <Pressable

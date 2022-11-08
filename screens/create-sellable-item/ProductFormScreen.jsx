@@ -1,11 +1,14 @@
 import {
   Button,
   FormControl,
+  HStack,
   Icon,
   Input,
   Pressable,
+  ScrollView,
   Select,
   Stack,
+  Switch,
   Text,
   useToast,
   View,
@@ -18,23 +21,34 @@ import { useI18n } from "../../components/I18nProvider";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ProductImagePicker } from "./ImagePicker";
 import { uploadImage } from "../../helpers/uploadImage";
-import { createProduct } from "../../services/products";
+import { createProduct, updateProduct } from "../../services/products";
 import { formErrors } from "../../utils";
 import { z } from "zod";
 import { userUserStore } from "../../stores/UserStore";
 const loginSchema = z.object({
   title: z.string().min(10),
   description: z.string().min(10),
-  price: z.preprocess((a) => {
-    if (typeof a === "string") {
-      return parseInt(a, 10);
-    } else if (typeof a === "number") {
-      return a;
+  price: z.preprocess((price) => {
+    if (typeof price === "string") {
+      return parseInt(price, 10);
+    } else if (typeof price === "number") {
+      return price;
     } else {
       return undefined;
     }
   }, z.number().gte(1)),
+  serialNumber: z.string().min(10),
   productImage: z.string().min(10),
+  stock: z.preprocess((price) => {
+    if (typeof price === "string") {
+      return parseInt(price, 10);
+    } else if (typeof price === "number") {
+      return price;
+    } else {
+      return undefined;
+    }
+  }, z.number().gte(1)),
+  isNew: z.boolean(),
 });
 const formInitialValues = {
   title: "",
@@ -43,27 +57,42 @@ const formInitialValues = {
   productImage: "",
   serialNumber: "",
   stock: "0",
+  isNew: false,
 };
-export function CreateSellableItemScreen() {
+function productToProductForm(product) {
+  delete product.createdAt;
+  product.stock = String(product.stock);
+  return product;
+}
+export function ProductFormScreen({ route }) {
+  const productToUpate = route.params?.product;
+  console.log("Nuevo producto", productToUpate);
   const { t } = useI18n();
   const toast = useToast();
   const navigation = useNavigation();
   const { user } = userUserStore();
   const [isCreatingProduct, setIsCreatingProduct] = useState(false);
-  const [form, setForm] = useState(formInitialValues);
+  const [form, setForm] = useState(
+    productToUpate ? productToProductForm(productToUpate) : formInitialValues
+  );
   const [validationErrorBag, setValidationErrorBag] = useState({});
   const [error, setError] = useState(null);
   async function safeCreateProduct() {
     try {
       const validationResult = loginSchema.safeParse(form);
       if (!validationResult.success) {
+        console.log(validationResult);
         setValidationErrorBag(formErrors(validationResult));
         setIsCreatingProduct(false);
         return;
       }
       setValidationErrorBag({});
       setIsCreatingProduct(true);
-      await createProduct(user.id, form);
+      if (productToUpate) {
+        await updateProduct(user.id, form);
+      } else {
+        await createProduct(user.id, form);
+      }
       setForm(formInitialValues);
       navigation.navigate("Home");
     } catch (error) {
@@ -81,9 +110,10 @@ export function CreateSellableItemScreen() {
     stock: createOnChangeHandler("stock"),
     productImage: createOnChangeHandler("productImage"),
     serialNumber: createOnChangeHandler("serialNumber"),
+    isNew: createOnChangeHandler("isNew"),
   };
   return (
-    <View style={style.container}>
+    <ScrollView style={style.container} my={10}>
       <Text style={style.formTitle}>{t("add_a_new_product")}</Text>
       <FormControl>
         <Stack style={{ width: "100%" }}>
@@ -132,7 +162,14 @@ export function CreateSellableItemScreen() {
               errorBag={validationErrorBag}
             />
           </FormControl>
-          <ProductImagePicker onImage={onChange.productImage} />
+          <HStack alignItems="center" space={4}>
+            <Text>{t("is_new")}</Text>
+            <Switch isChecked={form.isNew} onToggle={(newx) => log(newx)} />
+          </HStack>
+          <ProductImagePicker
+            value={form.productImage}
+            onImage={onChange.productImage}
+          />
           <Text color="red.500">
             {Boolean(validationErrorBag.productImage)
               ? t("please_select_an_image")
@@ -144,17 +181,17 @@ export function CreateSellableItemScreen() {
             onPress={safeCreateProduct}
             style={{ width: "100%", marginTop: 10 }}
           >
-            <Text color="primary.800">{t("create_product")}</Text>
+            <Text color="primary.800">{t("store_product")}</Text>
           </Button>
         </Stack>
       </FormControl>
-    </View>
+    </ScrollView>
   );
 }
 const style = StyleSheet.create({
   container: {
     marginTop: 100,
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
     display: "flex",
     flexDirection: "column",
   },

@@ -4,9 +4,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 
-export function ProductImagePicker({ onImage }) {
-  const [image, setImage] = useState(null);
-  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+export function ProductImagePicker({ value, onImage }) {
+  const [image, setImage] = useState(value || null);
   async function takePhoto() {
     await ImagePicker.requestCameraPermissionsAsync();
     let result = await ImagePicker.launchCameraAsync();

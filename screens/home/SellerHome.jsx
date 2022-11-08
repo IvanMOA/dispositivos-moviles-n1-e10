@@ -28,7 +28,7 @@ export function SellerHome() {
   const navigation = useNavigation();
   const [showFab, setShowFab] = useState(false);
   function onFabPress() {
-    navigation.navigate("CreateSellableItem");
+    navigation.navigate("ProductForm");
   }
   useEffect(() => {
     navigation.addListener("state", ({ data }) => {
@@ -37,35 +37,35 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
-      <SellableItemCard
-        product={{
-          title: "Arduino UNO",
-          description:
-            "Placa Arduino UNO con 1 mes de uso, luego de eso no se volvió a utilizar",
-          image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/6c/Arduino316.jpg?w=144",
-          price: 240,
-        }}
-      />
-      <SellableItemCard
-        product={{
-          title: "Shield Ethernet",
-          description:
-            "Shield Ethernet nuevo, no se utilizó para ningún proyecto",
-          image:
-            "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",
-          price: 120,
-        }}
-      />
-      {/*{isFetchingProducts ? (*/}
-      {/*  <Spinner />*/}
-      {/*) : fetchProductsError ? (*/}
-      {/*  <Text>{fetchProductsError.message}</Text>*/}
-      {/*) : products.length === 0 ? (*/}
-      {/*  <Text>{t("no_products_found")}</Text>*/}
-      {/*) : (*/}
-      {/*  products.map((product) => <SellableItemCard product={product} />)*/}
-      {/*)}*/}
+      {/*<SellableItemCard*/}
+      {/*  product={{*/}
+      {/*    title: "Arduino UNO",*/}
+      {/*    description:*/}
+      {/*      "Placa Arduino UNO con 1 mes de uso, luego de eso no se volvió a utilizar",*/}
+      {/*    image:*/}
+      {/*      "https://upload.wikimedia.org/wikipedia/commons/6/6c/Arduino316.jpg?w=144",*/}
+      {/*    price: 240,*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<SellableItemCard*/}
+      {/*  product={{*/}
+      {/*    title: "Shield Ethernet",*/}
+      {/*    description:*/}
+      {/*      "Shield Ethernet nuevo, no se utilizó para ningún proyecto",*/}
+      {/*    image:*/}
+      {/*      "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",*/}
+      {/*    price: 120,*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {isFetchingProducts ? (
+        <Spinner />
+      ) : fetchProductsError ? (
+        <Text>{fetchProductsError.message}</Text>
+      ) : products.length === 0 ? (
+        <Text>{t("no_products_found")}</Text>
+      ) : (
+        products.map((product) => <SellableItemCard product={product} />)
+      )}
       {showFab && (
         <Fab
           onPress={onFabPress}

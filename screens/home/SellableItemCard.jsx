@@ -10,26 +10,30 @@ export function SellableItemCard({ product }) {
   const navigation = useNavigation();
   const userStore = userUserStore();
   const { t } = useI18n();
-  // let [imageURL, setImageURL] = useState(
-  //   "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
-  // );
+  let [imageURL, setImageURL] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
+  );
+  function navigateToEditProductForm() {
+    navigation.navigate("ProductForm", { product });
+  }
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate("ProductDetail")}
       style={styles.sellableItemCard}
     >
-      {/*{imageURL && (*/}
-      {/*  <Image*/}
-      {/*    alt=""t*/}
-      {/*    source={{ uri: product.productImage }}*/}
-      {/*    style={styles.image}*/}
-      {/*  />*/}
-      {/*)}*/}
-      <Image
-        source={{ uri: product.image }}
-        alt="Comida"
-        style={styles.image}
-      />
+      {imageURL && (
+        <Image
+          alt=""
+          t
+          source={{ uri: product.productImage }}
+          style={styles.image}
+        />
+      )}
+      {/*<Image*/}
+      {/*  source={{ uri: product.image }}*/}
+      {/*  alt="Comida"*/}
+      {/*  style={styles.image}*/}
+      {/*/>*/}
       <View style={{ flex: 1 }}>
         <Text style={styles.sellableItemCardTitle}>{product.title}</Text>
         <Text noOfLines={2} style={styles.sellableItemCardDescription}>
@@ -59,12 +63,19 @@ export function SellableItemCard({ product }) {
               </Text>{" "}
             </Text>
           ) : (
-            <Button>
-              <Text>
-                {" "}
-                <Icon as={FontAwesome} name="check" /> {t("mark_1_sold")}
-              </Text>
-            </Button>
+            <HStack>
+              <Button onPress={navigateToEditProductForm} mr={3}>
+                <Text>
+                  <Icon as={FontAwesome} name="pencil" />
+                </Text>
+              </Button>
+              <Button>
+                <Text>
+                  {" "}
+                  <Icon as={FontAwesome} name="check" /> {t("mark_1_sold")}
+                </Text>
+              </Button>
+            </HStack>
           )}
         </View>
       </View>
