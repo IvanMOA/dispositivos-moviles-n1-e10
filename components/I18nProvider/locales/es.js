@@ -48,6 +48,8 @@ export const es = {
   products_let: "Quedan",
   sold_by: "Vendido por",
   mark_1_sold: "Marcar una venta",
+  pickup_point: "Punto de venta",
+  serial_number: "Número de serie",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {

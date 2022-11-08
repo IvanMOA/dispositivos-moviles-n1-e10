@@ -41,6 +41,7 @@ const formInitialValues = {
   description: "",
   price: "",
   productImage: "",
+  serialNumber: "",
 };
 export function CreateSellableItemScreen() {
   const { t } = useI18n();
@@ -77,6 +78,7 @@ export function CreateSellableItemScreen() {
     description: createOnChangeHandler("description"),
     price: createOnChangeHandler("price"),
     productImage: createOnChangeHandler("productImage"),
+    serialNumber: createOnChangeHandler("serialNumber"),
   };
   return (
     <View style={style.container}>
@@ -108,19 +110,16 @@ export function CreateSellableItemScreen() {
             />
             <FormErrorMessage name="price" errorBag={validationErrorBag} />
           </FormControl>
-          <FormControl isInvalid={!!validationErrorBag.price}>
-            <FormControl.Label>{t("category")}</FormControl.Label>
-            <Select
-              keyboardType="numeric"
-              onChangeText={onChange.category}
-              defaultValue={form.category}
-            >
-              <Select.Item label="Desayuno" value="Desayuno" />
-              <Select.Item label="Postre" value="Postre" />
-              <Select.Item label="Snack" value="Snack" />
-              <Select.Item label="Almuerzo" value="Almuerzo" />
-            </Select>
-            <FormErrorMessage name="category" errorBag={validationErrorBag} />
+          <FormControl isInvalid={!!validationErrorBag.serialNumber}>
+            <FormControl.Label>{t("serial_number")}</FormControl.Label>
+            <Input
+              onChangeText={onChange.serialNumber}
+              defaultValue={form.serialNumber}
+            />
+            <FormErrorMessage
+              name="serialNumber"
+              errorBag={validationErrorBag}
+            />
           </FormControl>
           <ProductImagePicker onImage={onChange.productImage} />
           <Text color="red.500">

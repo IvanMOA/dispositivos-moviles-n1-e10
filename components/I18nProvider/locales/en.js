@@ -48,6 +48,8 @@ export const en = {
   products_let: "Left",
   sold_by: "Sold by",
   mark_1_sold: "Mark one sold",
+  pickup_point: "Sale point",
+  serial_number: "Serial number",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {
