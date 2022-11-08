@@ -42,6 +42,7 @@ const formInitialValues = {
   price: "",
   productImage: "",
   serialNumber: "",
+  stock: "0",
 };
 export function CreateSellableItemScreen() {
   const { t } = useI18n();
@@ -77,6 +78,7 @@ export function CreateSellableItemScreen() {
     title: createOnChangeHandler("title"),
     description: createOnChangeHandler("description"),
     price: createOnChangeHandler("price"),
+    stock: createOnChangeHandler("stock"),
     productImage: createOnChangeHandler("productImage"),
     serialNumber: createOnChangeHandler("serialNumber"),
   };
@@ -109,6 +111,15 @@ export function CreateSellableItemScreen() {
               defaultValue={form.price}
             />
             <FormErrorMessage name="price" errorBag={validationErrorBag} />
+          </FormControl>
+          <FormControl isInvalid={!!validationErrorBag.stock}>
+            <FormControl.Label>{t("stock")}</FormControl.Label>
+            <Input
+              keyboardType="numeric"
+              onChangeText={onChange.stock}
+              defaultValue={form.stock}
+            />
+            <FormErrorMessage name="stock" errorBag={validationErrorBag} />
           </FormControl>
           <FormControl isInvalid={!!validationErrorBag.serialNumber}>
             <FormControl.Label>{t("serial_number")}</FormControl.Label>

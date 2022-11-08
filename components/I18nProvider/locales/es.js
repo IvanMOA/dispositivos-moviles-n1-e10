@@ -50,6 +50,7 @@ export const es = {
   mark_1_sold: "Marcar una venta",
   pickup_point: "Punto de venta",
   serial_number: "Número de serie",
+  stock: "Cantidad",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEs = (issue, ctx) => {
