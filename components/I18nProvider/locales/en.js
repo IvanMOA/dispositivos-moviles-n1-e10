@@ -52,6 +52,8 @@ export const en = {
   serial_number: "Serial number",
   stock: "Stock",
   is_new: "Is new",
+  new: "New",
+  not_new: "Used",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {

@@ -3,35 +3,44 @@ import { ScrollView, StyleSheet } from "react-native";
 import { Colors } from "../../values/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
+import { useI18n } from "../../components/I18nProvider";
+import { userUserStore } from "../../stores/UserStore";
 
-export default function ProductDetailScreen() {
+export default function ProductDetailScreen({ route }) {
+  const product = route.params.product;
+  const { t } = useI18n();
+  const userStore = userUserStore();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
         source={{
-          uri: "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",
+          uri: product.productImage,
         }}
         alt="Comida"
         style={styles.image}
       />
       <View style={styles.rectangleDetail}></View>
       <View style={styles.foodDetail}>
-        <View style={styles.startChatBtn}>
-          <Button>
-            <Text>
-              Chatear <Icon as={FontAwesome} name="comment" />
-            </Text>
-          </Button>
-        </View>
-        <Text style={styles.sellableItemCardPrice}>$120</Text>
-        <Stack direction="row" alignItems="center">
+        {userStore.user.role === "buyer" && (
+          <View style={styles.startChatBtn}>
+            <Button>
+              <Text>
+                Chat <Icon as={FontAwesome} name="comment" />
+              </Text>
+            </Button>
+          </View>
+        )}
+        <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
+        <Stack direction="row" mt={2} alignItems="center">
           <Text fontSize="xl" mt={1} mr={4}>
-            Shield Ethernet
+            {product.title}{" "}
           </Text>
-          <Text style={styles.foodTypeText}>Shield</Text>
+          <Text style={styles.foodTypeText}>
+            {product.isNew ? t("new") : t("not_new")}
+          </Text>
         </Stack>
         <Text fontSize="sm" color="gray.500">
-          Shield Ethernet nuevo, no se utilizó para ningún proyecto
+          {product.description}
         </Text>
         <View
           mt={2}
@@ -40,16 +49,18 @@ export default function ProductDetailScreen() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Text>Quedan: 3</Text>
+          <Text>Quedan: {product.stock}</Text>
         </View>
-        <View mt={2} display="flex" flexDirection="row">
-          <Text color="primary.700">
-            Vendido por:{" "}
-            <Text color="primary.800" fontWeight="bold">
-              Juan Alejandro Alvarez
-            </Text>{" "}
-          </Text>
-        </View>
+        {userStore.user.role === "buyer" && (
+          <View mt={2} display="flex" flexDirection="row">
+            <Text color="primary.700">
+              Vendido por:{" "}
+              <Text color="primary.800" fontWeight="bold">
+                Juan Alejandro Alvarez
+              </Text>{" "}
+            </Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

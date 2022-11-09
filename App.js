@@ -158,7 +158,13 @@ export default function App() {
                   ),
                 })}
               />
-              <Drawer.Screen name="VideoCall" component={VideoCall} />
+              <Drawer.Screen
+                name="VideoCall"
+                component={VideoCall}
+                options={{
+                  unmountOnBlur: true,
+                }}
+              />
               <Drawer.Screen
                 name="ProductForm"
                 component={ProductFormScreen}
@@ -184,6 +190,7 @@ export default function App() {
                 options={({ navigation }) => ({
                   headerTintColor: "transparent",
                   headerTransparent: true,
+                  unmountOnBlur: true,
                   headerLeft: () => (
                     <Pressable
                       onPress={() => navigation.navigate("Home")}

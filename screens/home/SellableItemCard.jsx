@@ -16,9 +16,12 @@ export function SellableItemCard({ product }) {
   function navigateToEditProductForm() {
     navigation.navigate("ProductForm", { product });
   }
+  function navigateToProductDetailScreen() {
+    navigation.navigate("ProductDetail", { product });
+  }
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("ProductDetail")}
+      onPress={navigateToProductDetailScreen}
       style={styles.sellableItemCard}
     >
       {imageURL && (
@@ -29,11 +32,6 @@ export function SellableItemCard({ product }) {
           style={styles.image}
         />
       )}
-      {/*<Image*/}
-      {/*  source={{ uri: product.image }}*/}
-      {/*  alt="Comida"*/}
-      {/*  style={styles.image}*/}
-      {/*/>*/}
       <View style={{ flex: 1 }}>
         <Text style={styles.sellableItemCardTitle}>{product.title}</Text>
         <Text noOfLines={2} style={styles.sellableItemCardDescription}>
@@ -47,7 +45,9 @@ export function SellableItemCard({ product }) {
           justifyContent="space-between"
         >
           <Text style={styles.sellableItemCardPrice}>${product.price}</Text>
-          <Text>{t("products_let")}: 3</Text>
+          <Text>
+            {t("products_let")}: {product.stock}
+          </Text>
         </View>
         <View
           mt={2}
