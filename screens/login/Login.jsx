@@ -11,8 +11,9 @@ import {
   Pressable,
   Stack,
   useToast,
+  Text,
+  Image,
 } from "native-base";
-import { Text } from "react-native";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { formErrors } from "../../utils";
@@ -110,7 +111,7 @@ export default function Login({ navigation }) {
       <Box
         alignItems="center"
         style={{
-          paddingTop: 100,
+          paddingTop: 10,
           paddingBottom: 100,
           paddingHorizontal: 20,
           display: "flex",
@@ -119,9 +120,12 @@ export default function Login({ navigation }) {
           position: "relative",
         }}
       >
-        <Text fontSize="3xl" fontWeight="bold">
-          {t("sign_in_title")}
-        </Text>
+        <Image
+          source={require("../../assets/gdpr_icons_6.png")}
+          style={{ height: 150 }}
+          resizeMode="contain"
+        />
+        <Text fontSize="2xl">{t("sign_in_title")}</Text>
         <FormControl>
           <Stack style={{ width: "100%" }}>
             <FormControl isInvalid={!!validationErrorBag.email}>

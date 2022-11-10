@@ -20,14 +20,17 @@ export default function UserCard({ user }) {
     setIsCreatingChat(true);
     try {
       const chatDoc = doc(firestore, "chats", `${userStore.user.id}${user.id}`);
-      const ss = await getDocs(
+      const chatsSS = await getDocs(
         query(
           collection(firestore, "chats"),
-          where("userIds", "array-contains-any", [userStore.user.id])
+          where("userIds", "array-contains", userStore.user.id)
         )
       );
-      const _doc = await getDoc(chatDoc);
-      if (ss.docs.length > 0) {
+      const chats = chatsSS.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const chatExistsWithUser = chats.some((chat) =>
+        chat.userIds.includes(user.id)
+      );
+      if (chatExistsWithUser) {
         toast.show({
           description: "Ya has abierto un chat con este usuario",
         });
@@ -36,6 +39,7 @@ export default function UserCard({ user }) {
           userIds: [userStore.user.id, user.id],
           createdByUser: userStore.user,
           createdToUser: user,
+          accepted: false,
           createdAt: new Date(),
         });
         toast.show({
@@ -60,7 +64,7 @@ export default function UserCard({ user }) {
         isLoading={isCreatingChat}
         style={styles.userCardButton}
       >
-        Iniciar chat
+        + Chat
       </Button>
     </View>
   );

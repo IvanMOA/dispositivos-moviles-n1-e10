@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { initializeFirestore } from "firebase/firestore";
+import { collection, initializeFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyBCHocGxH5boufaru4jHom0WOz7Lhg113U",
   authDomain: "dispositivos-moviles-63cd0.firebaseapp.com",
@@ -14,3 +15,16 @@ export const auth = getAuth(app);
 export const firestore = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+export function imageRef(fileName) {
+  return ref(
+    storage,
+    `gs://dispositivos-moviles-63cd0.appspot.com/${fileName}`
+  );
+}
+export const storage = getStorage();
+export const offerCandidatesCollection = (channelId) =>
+  collection(firestore, "channels", channelId, "offerCandidates");
+export const answerCandidatesCollection = (channelId) =>
+  collection(firestore, "channels", channelId, "answerCandidates");
+export const productsCollection = (userId) =>
+  collection(firestore, "users", userId, "products");

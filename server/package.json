@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/firestore": "^6.0.0",
+    "config": "^3.3.8",
+    "express": "^4.18.1",
+    "firebase-admin": "^11.0.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19",
+    "peer": "^0.6.1",
+    "socket.io": "^4.5.2",
+    "uuid": "^9.0.0",
+    "websocket": "^1.0.34",
+    "ws": "^8.8.1"
+  }
+}

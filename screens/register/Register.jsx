@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
+  Text,
   Box,
   Button,
   CheckIcon,
   FormControl,
   HStack,
   Icon,
+  Image,
   Input,
   Link,
   Pressable,
   Select,
   Stack,
   useToast,
+  ScrollView,
 } from "native-base";
 import { auth, firestore } from "../../firebase";
 import {
@@ -130,7 +132,7 @@ export default function Register({ navigation }) {
       setForm((prevFormValues) => ({ ...prevFormValues, role: newValue })),
   };
   return (
-    <>
+    <ScrollView>
       <HStack
         justifyContent="space-between"
         alignContent="center"
@@ -143,7 +145,7 @@ export default function Register({ navigation }) {
       <Box
         alignItems="center"
         style={{
-          paddingTop: 100,
+          paddingTop: 10,
           paddingBottom: 100,
           paddingHorizontal: 20,
           display: "flex",
@@ -151,13 +153,23 @@ export default function Register({ navigation }) {
           height: "100%",
         }}
       >
-        <Text fontSize="3xl" fontWeight="bold">
+        <Image
+          source={require("../../assets/miscellaneous_icons_2.png")}
+          style={{ height: 150 }}
+          resizeMode="contain"
+        />
+        <Text fontSize="2xl" fontWeight="bold">
           {t("sign_up_title")}
         </Text>
         <FormControl>
           <Stack style={{ width: "100%" }}>
             <FormControl isInvalid={!!validationErrorBag.name}>
               <FormControl.Label>{t("name")}</FormControl.Label>
+              <Input onChangeText={onChange.name} defaultValue={form.name} />
+              <FormErrorMessage name="name" errorBag={validationErrorBag} />
+            </FormControl>
+            <FormControl isInvalid={!!validationErrorBag.name}>
+              <FormControl.Label>Edad</FormControl.Label>
               <Input onChangeText={onChange.name} defaultValue={form.name} />
               <FormErrorMessage name="name" errorBag={validationErrorBag} />
             </FormControl>
@@ -256,6 +268,6 @@ export default function Register({ navigation }) {
           <Text>{t("already_have_an_account")}</Text>
         </Link>
       </Box>
-    </>
+    </ScrollView>
   );
 }

@@ -33,9 +33,6 @@ export function AuthProvider({ children }) {
               isAuthenticatingUser: false,
             });
           }
-          toast.show({
-            description: t("verify_your_email"),
-          });
         }
         if (user !== null) {
           await userStore.fetchUser(user.uid);

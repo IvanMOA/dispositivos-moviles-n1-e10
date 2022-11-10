@@ -5,11 +5,26 @@ export const userUserStore = create((set) => ({
   isFetchingUser: true,
   user: null,
   fetchUserError: null,
+  toggleIsSelling(isSelling) {
+    set((state) => ({
+      ...state,
+      user: { ...state.user, isSelling },
+    }));
+  },
+  setSellingHotspot(sellingHotspot) {
+    set((state) => ({
+      ...state,
+      user: { ...state.user, sellingHotspot },
+    }));
+  },
   async fetchUser(uid) {
     const docSS = await getDoc(doc(firestore, "users", uid));
-    this.user = {
-      ...docSS.data(),
-      id: uid,
-    };
+    set({
+      isFetchingUser: false,
+      user: {
+        ...docSS.data(),
+        id: uid,
+      },
+    });
   },
 }));
