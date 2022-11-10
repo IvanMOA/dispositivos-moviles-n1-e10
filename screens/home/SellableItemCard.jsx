@@ -1,4 +1,4 @@
-import { Button, HStack, Icon, Image, Text, View } from "native-base";
+import { Button, HStack, Icon, Image, Text, useToast, View } from "native-base";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../../values/colors";
 import React, { useState } from "react";
@@ -6,10 +6,13 @@ import { useNavigation } from "@react-navigation/native";
 import { userUserStore } from "../../stores/UserStore";
 import { FontAwesome } from "@expo/vector-icons";
 import { useI18n } from "../../components/I18nProvider";
+import { updateProduct } from "../../services/products";
 export function SellableItemCard({ product }) {
   const navigation = useNavigation();
   const userStore = userUserStore();
+  const toast = useToast();
   const { t } = useI18n();
+  const [isSellingOne, setIsSellingOne] = useState(false);
   let [imageURL, setImageURL] = useState(
     "https://firebasestorage.googleapis.com/v0/b/dispositivos-moviles-63cd0.appspot.com/o/comida.jpg?alt=media&token=8f7ea81a-e26f-4385-92a2-cca869018d9e"
   );
@@ -18,6 +21,31 @@ export function SellableItemCard({ product }) {
   }
   function navigateToProductDetailScreen() {
     navigation.navigate("ProductDetail", { product });
+  }
+  async function sellOne() {
+    setIsSellingOne(true);
+    if (product.stock <= 0) {
+      toast.show({
+        description: "El producto ya no tiene stock",
+      });
+      setIsSellingOne(false);
+      return;
+    }
+    try {
+      await updateProduct(userStore.user.id, {
+        ...product,
+        stock: product.stock - 1,
+        soldDates: product.soldDates
+          ? [...product.soldDates, new Date()]
+          : [new Date()],
+      });
+    } catch (error) {
+      console.log(error);
+      toast.show({
+        description: error.message,
+      });
+    }
+    setIsSellingOne(false);
   }
   return (
     <TouchableOpacity
@@ -59,7 +87,7 @@ export function SellableItemCard({ product }) {
             <Text color="primary.700">
               {t("sold_by")}:{" "}
               <Text color="primary.800" fontWeight="bold">
-                Juan Alejandro Alvarez
+                {product.user.name}
               </Text>{" "}
             </Text>
           ) : (
@@ -69,7 +97,7 @@ export function SellableItemCard({ product }) {
                   <Icon as={FontAwesome} name="pencil" />
                 </Text>
               </Button>
-              <Button>
+              <Button isLoading={isSellingOne} onPress={sellOne}>
                 <Text>
                   {" "}
                   <Icon as={FontAwesome} name="check" /> {t("mark_1_sold")}

@@ -10,24 +10,24 @@ import {
   use,
   useNavigationState,
 } from "@react-navigation/native";
-import { useCollection } from "react-firebase-hooks/firestore";
+import {
+  useCollection,
+  useCollectionData,
+} from "react-firebase-hooks/firestore";
 import { collection, orderBy, query } from "firebase/firestore";
 import { firestore, productsCollection } from "../../firebase";
 import { userUserStore } from "../../stores/UserStore";
 import { useI18n } from "../../components/I18nProvider";
+import { productConverter } from "../../models/product";
 export function SellerHome() {
   const { user } = userUserStore();
   const { t } = useI18n();
-  const [productsSS, isFetchingProducts, fetchProductsError] = useCollection(
-    query(productsCollection(user.id), orderBy("createdAt", "asc"))
+  const [products, isFetchingProducts, fetchProductsError] = useCollectionData(
+    query(
+      productsCollection(user.id).withConverter(productConverter),
+      orderBy("createdAt", "asc")
+    )
   );
-  const products = productsSS?.docs?.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    createdAt: doc.data().createdAt.toDate(),
-    soldDates:
-      doc.data()?.soldDates?.map((soldDate) => soldDate.toDate()) ?? [],
-  }));
   const navigation = useNavigation();
   const [showFab, setShowFab] = useState(false);
   function onFabPress() {
@@ -44,10 +44,10 @@ export function SellerHome() {
         <Spinner />
       ) : fetchProductsError ? (
         <Text>{fetchProductsError.message}</Text>
-      ) : products.length === 0 ? (
+      ) : products?.length === 0 ? (
         <Text>{t("no_products_found")}</Text>
       ) : (
-        products.map((product) => <SellableItemCard product={product} />)
+        products?.map((product) => <SellableItemCard product={product} />)
       )}
       {showFab && (
         <Fab

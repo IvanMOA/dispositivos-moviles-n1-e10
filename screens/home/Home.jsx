@@ -46,9 +46,7 @@ export default function Home() {
     try {
       userStore.toggleIsSelling(isSelling);
       const products = await getProducts(userStore.user.id);
-      console.log(products);
       for (const product of products) {
-        console.log(product);
         await updateProduct(userStore.user.id, {
           ...product,
           isActive: isSelling,

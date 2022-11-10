@@ -89,7 +89,7 @@ export function ProductFormScreen({ route }) {
       setValidationErrorBag({});
       setIsCreatingProduct(true);
       if (productToUpate) {
-        await updateProduct(user.id, form);
+        await updateProduct(user.id, { ...form, user });
       } else {
         await createProduct(user.id, form);
       }

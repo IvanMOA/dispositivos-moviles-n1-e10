@@ -7,6 +7,7 @@ export async function createProduct(userId, product) {
     productImage: await uploadImage(product.productImage),
     stock: Number(product.stock),
     createdAt: new Date(),
+    soldDates: [],
   });
 }
 export async function getProducts(userId) {

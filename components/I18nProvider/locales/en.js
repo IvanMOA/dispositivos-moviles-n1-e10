@@ -54,6 +54,7 @@ export const en = {
   is_new: "Is new",
   new: "New",
   not_new: "Used",
+  activate_selling: "Activate selling",
 };
 /** @type { z.ZodErrorMap  } */
 export const zodCustomErrorMapEn = (issue, ctx) => {

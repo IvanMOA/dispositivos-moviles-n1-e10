@@ -1,15 +1,69 @@
-import { Button, Icon, Image, Stack, Text, View } from "native-base";
+import { Button, Icon, Image, Stack, Text, useToast, View } from "native-base";
 import { ScrollView, StyleSheet } from "react-native";
 import { Colors } from "../../values/colors";
 import { FontAwesome } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import { useI18n } from "../../components/I18nProvider";
 import { userUserStore } from "../../stores/UserStore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 export default function ProductDetailScreen({ route }) {
   const product = route.params.product;
+  const [isCreatingChat, setIsCreatingChat] = useState(false);
   const { t } = useI18n();
   const userStore = userUserStore();
+  const toast = useToast();
+  async function startChat() {
+    setIsCreatingChat(true);
+    try {
+      const chatDoc = doc(
+        firestore,
+        "chats",
+        `${userStore.user.id}${product.user.id}`
+      );
+      const chatsSS = await getDocs(
+        query(
+          collection(firestore, "chats"),
+          where("userIds", "array-contains", userStore.user.id)
+        )
+      );
+      const chats = chatsSS.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const chatExistsWithUser = chats.some((chat) =>
+        chat.userIds.includes(product.user.id)
+      );
+      if (chatExistsWithUser) {
+        toast.show({
+          description: "Ya has abierto un chat con este usuario",
+        });
+      } else {
+        await setDoc(chatDoc, {
+          userIds: [userStore.user.id, product.user.id],
+          createdByUser: userStore.user,
+          createdToUser: product.user,
+          accepted: false,
+          createdAt: new Date(),
+        });
+        toast.show({
+          description: "Chat creado",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      toast.show({
+        description: "No se pudo crear el chat",
+      });
+    } finally {
+      setIsCreatingChat(false);
+    }
+  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -23,7 +77,7 @@ export default function ProductDetailScreen({ route }) {
       <View style={styles.foodDetail}>
         {userStore.user.role === "buyer" && (
           <View style={styles.startChatBtn}>
-            <Button>
+            <Button onPress={startChat} isLoading={isCreatingChat}>
               <Text>
                 Chat <Icon as={FontAwesome} name="comment" />
               </Text>
