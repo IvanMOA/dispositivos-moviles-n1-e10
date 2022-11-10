@@ -11,6 +11,12 @@ export const userUserStore = create((set) => ({
       user: { ...state.user, isSelling },
     }));
   },
+  setSellingHotspot(sellingHotspot) {
+    set((state) => ({
+      ...state,
+      user: { ...state.user, sellingHotspot },
+    }));
+  },
   async fetchUser(uid) {
     const docSS = await getDoc(doc(firestore, "users", uid));
     set({

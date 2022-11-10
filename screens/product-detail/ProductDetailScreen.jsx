@@ -105,6 +105,7 @@ export default function ProductDetailScreen({ route }) {
         >
           <Text>Quedan: {product.stock}</Text>
         </View>
+        <Text mt={2}>{product.user.sellingHotspot}</Text>
         {userStore.user.role === "buyer" && (
           <View mt={2} display="flex" flexDirection="row">
             <Text color="primary.700">

@@ -19,9 +19,12 @@ import {
   useToast,
   Image,
   Switch,
+  FormControl,
+  Select,
+  CheckIcon,
 } from "native-base";
 import { LangSelector } from "../../components/LangSelector";
-import React from "react";
+import React, { useState } from "react";
 
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
@@ -38,6 +41,7 @@ import { useVideoCallStore } from "../../stores/VideoCallStore";
 import { BuyerHome } from "./BuyerHome";
 import { SellerHome } from "./SellerHome";
 import { getProducts, updateProduct } from "../../services/products";
+import { updateUser } from "../../services/users";
 
 export default function Home() {
   const userStore = userUserStore();
@@ -56,6 +60,7 @@ export default function Home() {
       console.log(e);
     }
   }
+
   return (
     <View>
       <Stack space={4}>

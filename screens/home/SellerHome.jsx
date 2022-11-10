@@ -1,4 +1,16 @@
-import { Fab, Icon, Image, Spinner, Text, View } from "native-base";
+import {
+  CheckIcon,
+  Fab,
+  FormControl,
+  HStack,
+  Icon,
+  Image,
+  ScrollView,
+  Select,
+  Spinner,
+  Text,
+  View,
+} from "native-base";
 import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../../values/colors";
@@ -19,9 +31,16 @@ import { firestore, productsCollection } from "../../firebase";
 import { userUserStore } from "../../stores/UserStore";
 import { useI18n } from "../../components/I18nProvider";
 import { productConverter } from "../../models/product";
+import { updateUser } from "../../services/users";
+import { getProducts, updateProduct } from "../../services/products";
 export function SellerHome() {
-  const { user } = userUserStore();
+  const { user, setSellingHotspot } = userUserStore();
   const { t } = useI18n();
+  const hotspots = [
+    "Centro Edificio 4",
+    "Bancas Edificio 7",
+    "Bancas frente a Edificio 3",
+  ];
   const [products, isFetchingProducts, fetchProductsError] = useCollectionData(
     query(
       productsCollection(user.id).withConverter(productConverter),
@@ -38,8 +57,46 @@ export function SellerHome() {
       setShowFab(data.state.routeNames[data.state.index] === "Home");
     });
   }, []);
+  async function changeSellingHotspot(newHotspot) {
+    try {
+      const newUser = {
+        ...user,
+        sellingHotspot: newHotspot,
+      };
+      setSellingHotspot(newHotspot);
+      await updateUser(newUser);
+      const products = await getProducts(user.id);
+      for (const product of products) {
+        await updateProduct(user.id, {
+          ...product,
+          user: newUser,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <HStack mb={5}>
+        <FormControl>
+          <FormControl.Label>Punto de venta</FormControl.Label>
+          <Select
+            selectedValue={user.sellingHotspot}
+            minWidth="200"
+            placeholder="Punto de venta"
+            _selectedItem={{
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={changeSellingHotspot}
+          >
+            {hotspots.map((hotspot) => (
+              <Select key={hotspot} label={hotspot} value={hotspot} />
+            ))}
+          </Select>
+        </FormControl>
+      </HStack>
       {isFetchingProducts ? (
         <Spinner />
       ) : fetchProductsError ? (
@@ -58,7 +115,7 @@ export function SellerHome() {
           icon={<Icon color="primary.50" as={FontAwesome} name="plus" />}
         />
       )}
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

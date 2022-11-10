@@ -1,4 +1,13 @@
-import { Button, HStack, Icon, Image, Text, useToast, View } from "native-base";
+import {
+  Button,
+  HStack,
+  Icon,
+  Image,
+  Text,
+  useToast,
+  View,
+  VStack,
+} from "native-base";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../../values/colors";
 import React, { useState } from "react";
@@ -21,6 +30,31 @@ export function SellableItemCard({ product }) {
   }
   function navigateToProductDetailScreen() {
     navigation.navigate("ProductDetail", { product });
+  }
+  async function sellOne() {
+    setIsSellingOne(true);
+    if (product.stock <= 0) {
+      toast.show({
+        description: "El producto ya no tiene stock",
+      });
+      setIsSellingOne(false);
+      return;
+    }
+    try {
+      await updateProduct(userStore.user.id, {
+        ...product,
+        stock: product.stock - 1,
+        soldDates: product.soldDates
+          ? [...product.soldDates, new Date()]
+          : [new Date()],
+      });
+    } catch (error) {
+      console.log(error);
+      toast.show({
+        description: error.message,
+      });
+    }
+    setIsSellingOne(false);
   }
   async function sellOne() {
     setIsSellingOne(true);
@@ -84,12 +118,17 @@ export function SellableItemCard({ product }) {
           justifyContent="flex-end"
         >
           {userStore.user?.role === "buyer" ? (
-            <Text color="primary.700">
-              {t("sold_by")}:{" "}
-              <Text color="primary.800" fontWeight="bold">
-                {product.user.name}
-              </Text>{" "}
-            </Text>
+            <VStack>
+              <Text color="primary.700">
+                {t("sold_by")}:{" "}
+                <Text color="primary.800" fontWeight="bold">
+                  {product.user.name}
+                </Text>{" "}
+              </Text>
+              <Text textAlign={"right"} mt={2}>
+                en {product.user.sellingHotspot}
+              </Text>
+            </VStack>
           ) : (
             <HStack>
               <Button onPress={navigateToEditProductForm} mr={3}>
