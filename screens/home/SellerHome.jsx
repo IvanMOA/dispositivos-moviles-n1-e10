@@ -24,6 +24,9 @@ export function SellerHome() {
   const products = productsSS?.docs?.map((doc) => ({
     id: doc.id,
     ...doc.data(),
+    createdAt: doc.data().createdAt.toDate(),
+    soldDates:
+      doc.data()?.soldDates?.map((soldDate) => soldDate.toDate()) ?? [],
   }));
   const navigation = useNavigation();
   const [showFab, setShowFab] = useState(false);
@@ -37,26 +40,6 @@ export function SellerHome() {
   }, []);
   return (
     <View style={styles.container}>
-      {/*<SellableItemCard*/}
-      {/*  product={{*/}
-      {/*    title: "Arduino UNO",*/}
-      {/*    description:*/}
-      {/*      "Placa Arduino UNO con 1 mes de uso, luego de eso no se volvió a utilizar",*/}
-      {/*    image:*/}
-      {/*      "https://upload.wikimedia.org/wikipedia/commons/6/6c/Arduino316.jpg?w=144",*/}
-      {/*    price: 240,*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<SellableItemCard*/}
-      {/*  product={{*/}
-      {/*    title: "Shield Ethernet",*/}
-      {/*    description:*/}
-      {/*      "Shield Ethernet nuevo, no se utilizó para ningún proyecto",*/}
-      {/*    image:*/}
-      {/*      "https://naylampmechatronics.com/img/cms/Blog/Tutorial%20Ethernet%20Shield/Arduino%20y%20Ethernet%20Shield.jpg",*/}
-      {/*    price: 120,*/}
-      {/*  }}*/}
-      {/*/>*/}
       {isFetchingProducts ? (
         <Spinner />
       ) : fetchProductsError ? (
