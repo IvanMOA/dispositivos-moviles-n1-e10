@@ -42,7 +42,7 @@ export const es = {
   no_products_found: "No se encontraron productos",
   category: "Categoría",
   last_week_most_sold_items: "Productos más vendidos de la última semana",
-  sales_per_month: "Sales per month",
+  sales_per_month: "Ventas por mes",
   sales_per_day: "Ventas por día",
   statistics: "Estadísticas",
   products_let: "Quedan",
